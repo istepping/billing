@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.BillMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Bill" >
+    <id column="b_id" property="bId" jdbcType="BIGINT" />
+    <result column="u_id" property="uId" jdbcType="BIGINT" />
+    <result column="save_time" property="saveTime" jdbcType="TIMESTAMP" />
+    <result column="b_type" property="bType" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="g_type" property="gType" jdbcType="VARCHAR" />
+    <result column="g_detail" property="gDetail" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="extra_info" property="extraInfo" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    b_id, u_id, save_time, b_type, money, g_type, g_detail, location, extra_info, state
+  </sql>
+  <select id="getBillList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_bill
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bill
+    where b_id = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_bill
+    where b_id = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Bill" >
+    insert into tb_bill (b_id, u_id, save_time, 
+      b_type, money, g_type, 
+      g_detail, location, extra_info, 
+      state)
+    values (#{bId,jdbcType=BIGINT}, #{uId,jdbcType=BIGINT}, #{saveTime,jdbcType=TIMESTAMP}, 
+      #{bType,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{gType,jdbcType=VARCHAR}, 
+      #{gDetail,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{extraInfo,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Bill" >
+    insert into tb_bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        b_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="saveTime != null" >
+        save_time,
+      </if>
+      <if test="bType != null" >
+        b_type,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="gType != null" >
+        g_type,
+      </if>
+      <if test="gDetail != null" >
+        g_detail,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="extraInfo != null" >
+        extra_info,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="saveTime != null" >
+        #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bType != null" >
+        #{bType,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="gType != null" >
+        #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gDetail != null" >
+        #{gDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null" >
+        #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Bill" >
+    update tb_bill
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="saveTime != null" >
+        save_time = #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bType != null" >
+        b_type = #{bType,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="gType != null" >
+        g_type = #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gDetail != null" >
+        g_detail = #{gDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null" >
+        extra_info = #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Bill" >
+    update tb_bill
+    set u_id = #{uId,jdbcType=BIGINT},
+      save_time = #{saveTime,jdbcType=TIMESTAMP},
+      b_type = #{bType,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      g_type = #{gType,jdbcType=VARCHAR},
+      g_detail = #{gDetail,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      extra_info = #{extraInfo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
+    where b_id = #{bId,jdbcType=BIGINT}
+  </update>
+</mapper>
