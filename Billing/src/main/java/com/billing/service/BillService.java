@@ -9,4 +9,5 @@ import java.util.List;
 public interface BillService {
     List<Bill> getBillList();
     Bill getBillByBId(long bId);
+    int addBillByUId(Bill bill);
 }

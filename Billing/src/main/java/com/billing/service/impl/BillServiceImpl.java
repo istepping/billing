@@ -20,6 +20,11 @@ public class BillServiceImpl implements BillService {
     BillMapper billMapper;
 
     @Override
+    public int addBillByUId(Bill bill) {
+        return billMapper.insert(bill);
+    }
+
+    @Override
     public Bill getBillByBId(long bId) {
         return billMapper.selectByPrimaryKey(bId);
     }
