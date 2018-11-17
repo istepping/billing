@@ -51,7 +51,7 @@ public abstract class BaseControl {
     public Result failResponse(){
         Result result=new Result();
         result.setStatusCode(0);
-        result.setMessage("失败");
+        result.setMessage("fail");
         return result;
     }
     public Result failResponse(String msg){

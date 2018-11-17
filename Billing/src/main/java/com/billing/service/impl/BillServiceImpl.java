@@ -31,6 +31,6 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<Bill> getBillList() {
-        return billMapper.getBillList();
+        return billMapper.selectAll();
     }
 }
