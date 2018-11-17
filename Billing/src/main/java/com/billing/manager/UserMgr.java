@@ -11,14 +11,17 @@ import java.util.Map;
  * @apiNote
  */
 public class UserMgr {
-    /**<session,用户登陆信息>*/
+    /**<token,用户登陆信息>*/
     public static Map<String, LoginInfo> userMap=new HashMap<>();
-    /**session有效时间*/
+    /**token有效时间*/
     public static final Long validTime=24*60*60*1000L;
-    public static boolean isLogin(String session){
-        if(userMap.containsKey(session)){
+    public static Long getUId(String token){
+        return userMap.get(token).getuId();
+    }
+    public static boolean isLogin(String token){
+        if(userMap.containsKey(token)){
             Long nowTime=new Date().getTime();
-            Long loginTime=userMap.get(session).getLoginTime();
+            Long loginTime=userMap.get(token).getLoginTime();
             if(nowTime-loginTime<validTime){
                 return true;
             }else{
@@ -29,13 +32,13 @@ public class UserMgr {
         }
     }
     public static String login(Long uId,String sessionKey,String openId){
-        String session=String.valueOf(new Date().getTime());
+        String token=String.valueOf(new Date().getTime());
         LoginInfo loginInfo=new LoginInfo();
         loginInfo.setuId(uId);
         loginInfo.setSessionKey(sessionKey);
         loginInfo.setOpenid(openId);
         loginInfo.setLoginTime(new Date().getTime());
-        userMap.put(session,loginInfo);
-        return session;
+        userMap.put(token,loginInfo);
+        return token;
     }
 }

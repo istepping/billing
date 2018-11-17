@@ -16,6 +16,12 @@
   <sql id="Base_Column_List" >
     b_id, u_id, save_time, b_type, money, g_type, g_detail, location, extra_info, state
   </sql>
+  <select id="selectByUId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_bill
+    where u_id = #{uId,jdbcType=BIGINT}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

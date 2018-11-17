@@ -50,7 +50,7 @@ public class UserServiceImpl extends BaseService implements UserService {
                 user=userMapper.selectByWxId(openid);
             }
         }
-        UserMgr.login(user.getuId(),session_key,openid);
+        String token=UserMgr.login(user.getuId(),session_key,openid);
         return success();
     }
 }

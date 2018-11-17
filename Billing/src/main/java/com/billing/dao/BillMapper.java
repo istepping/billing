@@ -5,6 +5,8 @@ import com.billing.entity.Bill;
 import java.util.List;
 
 public interface BillMapper {
+    List<Bill> selectByUId(Long uId);
+
     List<Bill> selectAll();
 
     int deleteByPrimaryKey(Long bId);
