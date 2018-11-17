@@ -5,6 +5,8 @@ import com.billing.entity.Bill;
 import java.util.List;
 
 public interface BillMapper {
+    List<Bill> getBillList();
+
     int deleteByPrimaryKey(Long bId);
 
     int insert(Bill record);
@@ -16,6 +18,4 @@ public interface BillMapper {
     int updateByPrimaryKeySelective(Bill record);
 
     int updateByPrimaryKey(Bill record);
-
-    List<Bill> getBillList();
 }
