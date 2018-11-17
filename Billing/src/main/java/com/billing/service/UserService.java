@@ -1,5 +1,6 @@
 package com.billing.service;
 
+import com.billing.base.BaseService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     //登陆
-    boolean login(String code);
+    BaseService.ServiceResult login(String code);
 }

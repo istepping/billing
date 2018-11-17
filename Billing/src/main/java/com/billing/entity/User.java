@@ -25,6 +25,12 @@ public class User {
 
     private String uLocation;
 
+    public User(){}
+
+    public User(String wxId){
+        this.wxId=wxId;
+    }
+
     public Long getuId() {
         return uId;
     }

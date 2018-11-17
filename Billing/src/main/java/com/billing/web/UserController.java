@@ -24,7 +24,7 @@ public class UserController extends BaseControl {
         if(code==null || code.length()==0) {
             return failResponse("code为空");
         }
-        if(userService.login(code)){
+        if(userService.login(code).isSuccess()){
             return successResponse();
         }else{
             return failResponse("登陆失败");

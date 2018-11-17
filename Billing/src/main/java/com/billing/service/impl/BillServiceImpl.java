@@ -1,5 +1,6 @@
 package com.billing.service.impl;
 
+import com.billing.base.BaseService;
 import com.billing.dao.BillMapper;
 import com.billing.entity.Bill;
 import com.billing.service.BillService;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class BillServiceImpl implements BillService {
+public class BillServiceImpl extends BaseService implements BillService {
     @Autowired
     BillMapper billMapper;
 

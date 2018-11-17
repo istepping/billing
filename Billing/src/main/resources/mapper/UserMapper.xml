@@ -19,6 +19,12 @@
     u_id, wx_id, u_name, u_gender, u_phone, u_email, u_city, u_school, u_no, u_grade, 
     u_class, u_location
   </sql>
+  <select id="selectByWxId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where wx_id = #{wxId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
