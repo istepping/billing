@@ -13,6 +13,13 @@ public abstract class BaseService {
         serviceResult.setInfo("success");
         return serviceResult;
     }
+    public ServiceResult success(String info){
+        ServiceResult serviceResult=new ServiceResult();
+        serviceResult.setSuccess(true);
+        serviceResult.setId(1);
+        serviceResult.setInfo(info);
+        return serviceResult;
+    }
     public ServiceResult fail(){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(false);

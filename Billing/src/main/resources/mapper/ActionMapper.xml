@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.ActionMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Action" >
+    <id column="a_id" property="aId" jdbcType="BIGINT" />
+    <result column="u_id" property="uId" jdbcType="BIGINT" />
+    <result column="a_habit" property="aHabit" jdbcType="VARCHAR" />
+    <result column="a_collection" property="aCollection" jdbcType="VARCHAR" />
+    <result column="a_imagine" property="aImagine" jdbcType="VARCHAR" />
+    <result column="a_reason" property="aReason" jdbcType="VARCHAR" />
+    <result column="a_impluse" property="aImpluse" jdbcType="VARCHAR" />
+    <result column="a_random" property="aRandom" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a_id, u_id, a_habit, a_collection, a_imagine, a_reason, a_impluse, a_random
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_action
+    where a_id = #{aId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_action
+    where a_id = #{aId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Action" >
+    insert into tb_action (a_id, u_id, a_habit, 
+      a_collection, a_imagine, a_reason, 
+      a_impluse, a_random)
+    values (#{aId,jdbcType=BIGINT}, #{uId,jdbcType=BIGINT}, #{aHabit,jdbcType=VARCHAR}, 
+      #{aCollection,jdbcType=VARCHAR}, #{aImagine,jdbcType=VARCHAR}, #{aReason,jdbcType=VARCHAR}, 
+      #{aImpluse,jdbcType=VARCHAR}, #{aRandom,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Action" >
+    insert into tb_action
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aId != null" >
+        a_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="aHabit != null" >
+        a_habit,
+      </if>
+      <if test="aCollection != null" >
+        a_collection,
+      </if>
+      <if test="aImagine != null" >
+        a_imagine,
+      </if>
+      <if test="aReason != null" >
+        a_reason,
+      </if>
+      <if test="aImpluse != null" >
+        a_impluse,
+      </if>
+      <if test="aRandom != null" >
+        a_random,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aId != null" >
+        #{aId,jdbcType=BIGINT},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="aHabit != null" >
+        #{aHabit,jdbcType=VARCHAR},
+      </if>
+      <if test="aCollection != null" >
+        #{aCollection,jdbcType=VARCHAR},
+      </if>
+      <if test="aImagine != null" >
+        #{aImagine,jdbcType=VARCHAR},
+      </if>
+      <if test="aReason != null" >
+        #{aReason,jdbcType=VARCHAR},
+      </if>
+      <if test="aImpluse != null" >
+        #{aImpluse,jdbcType=VARCHAR},
+      </if>
+      <if test="aRandom != null" >
+        #{aRandom,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Action" >
+    update tb_action
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="aHabit != null" >
+        a_habit = #{aHabit,jdbcType=VARCHAR},
+      </if>
+      <if test="aCollection != null" >
+        a_collection = #{aCollection,jdbcType=VARCHAR},
+      </if>
+      <if test="aImagine != null" >
+        a_imagine = #{aImagine,jdbcType=VARCHAR},
+      </if>
+      <if test="aReason != null" >
+        a_reason = #{aReason,jdbcType=VARCHAR},
+      </if>
+      <if test="aImpluse != null" >
+        a_impluse = #{aImpluse,jdbcType=VARCHAR},
+      </if>
+      <if test="aRandom != null" >
+        a_random = #{aRandom,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where a_id = #{aId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Action" >
+    update tb_action
+    set u_id = #{uId,jdbcType=BIGINT},
+      a_habit = #{aHabit,jdbcType=VARCHAR},
+      a_collection = #{aCollection,jdbcType=VARCHAR},
+      a_imagine = #{aImagine,jdbcType=VARCHAR},
+      a_reason = #{aReason,jdbcType=VARCHAR},
+      a_impluse = #{aImpluse,jdbcType=VARCHAR},
+      a_random = #{aRandom,jdbcType=VARCHAR}
+    where a_id = #{aId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.GoodMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Good" >
+    <id column="g_id" property="gId" jdbcType="INTEGER" />
+    <result column="g_type" property="gType" jdbcType="VARCHAR" />
+    <result column="g_name" property="gName" jdbcType="VARCHAR" />
+    <result column="g_detail" property="gDetail" jdbcType="VARCHAR" />
+    <result column="g_sell_num" property="gSellNum" jdbcType="INTEGER" />
+    <result column="g_aveprice" property="gAveprice" jdbcType="DECIMAL" />
+    <result column="g_good_comment" property="gGoodComment" jdbcType="INTEGER" />
+    <result column="g_sell_percent" property="gSellPercent" jdbcType="VARCHAR" />
+    <result column="g_price_percent" property="gPricePercent" jdbcType="VARCHAR" />
+    <result column="g_comment_percent" property="gCommentPercent" jdbcType="VARCHAR" />
+    <result column="g_multiple_percent" property="gMultiplePercent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    g_id, g_type, g_name, g_detail, g_sell_num, g_aveprice, g_good_comment, g_sell_percent, 
+    g_price_percent, g_comment_percent, g_multiple_percent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_good
+    where g_id = #{gId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_good
+    where g_id = #{gId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Good" >
+    insert into tb_good (g_id, g_type, g_name, 
+      g_detail, g_sell_num, g_aveprice, 
+      g_good_comment, g_sell_percent, g_price_percent, 
+      g_comment_percent, g_multiple_percent)
+    values (#{gId,jdbcType=INTEGER}, #{gType,jdbcType=VARCHAR}, #{gName,jdbcType=VARCHAR}, 
+      #{gDetail,jdbcType=VARCHAR}, #{gSellNum,jdbcType=INTEGER}, #{gAveprice,jdbcType=DECIMAL}, 
+      #{gGoodComment,jdbcType=INTEGER}, #{gSellPercent,jdbcType=VARCHAR}, #{gPricePercent,jdbcType=VARCHAR}, 
+      #{gCommentPercent,jdbcType=VARCHAR}, #{gMultiplePercent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Good" >
+    insert into tb_good
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gId != null" >
+        g_id,
+      </if>
+      <if test="gType != null" >
+        g_type,
+      </if>
+      <if test="gName != null" >
+        g_name,
+      </if>
+      <if test="gDetail != null" >
+        g_detail,
+      </if>
+      <if test="gSellNum != null" >
+        g_sell_num,
+      </if>
+      <if test="gAveprice != null" >
+        g_aveprice,
+      </if>
+      <if test="gGoodComment != null" >
+        g_good_comment,
+      </if>
+      <if test="gSellPercent != null" >
+        g_sell_percent,
+      </if>
+      <if test="gPricePercent != null" >
+        g_price_percent,
+      </if>
+      <if test="gCommentPercent != null" >
+        g_comment_percent,
+      </if>
+      <if test="gMultiplePercent != null" >
+        g_multiple_percent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gId != null" >
+        #{gId,jdbcType=INTEGER},
+      </if>
+      <if test="gType != null" >
+        #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gName != null" >
+        #{gName,jdbcType=VARCHAR},
+      </if>
+      <if test="gDetail != null" >
+        #{gDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="gSellNum != null" >
+        #{gSellNum,jdbcType=INTEGER},
+      </if>
+      <if test="gAveprice != null" >
+        #{gAveprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gGoodComment != null" >
+        #{gGoodComment,jdbcType=INTEGER},
+      </if>
+      <if test="gSellPercent != null" >
+        #{gSellPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gPricePercent != null" >
+        #{gPricePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gCommentPercent != null" >
+        #{gCommentPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gMultiplePercent != null" >
+        #{gMultiplePercent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Good" >
+    update tb_good
+    <set >
+      <if test="gType != null" >
+        g_type = #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gName != null" >
+        g_name = #{gName,jdbcType=VARCHAR},
+      </if>
+      <if test="gDetail != null" >
+        g_detail = #{gDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="gSellNum != null" >
+        g_sell_num = #{gSellNum,jdbcType=INTEGER},
+      </if>
+      <if test="gAveprice != null" >
+        g_aveprice = #{gAveprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gGoodComment != null" >
+        g_good_comment = #{gGoodComment,jdbcType=INTEGER},
+      </if>
+      <if test="gSellPercent != null" >
+        g_sell_percent = #{gSellPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gPricePercent != null" >
+        g_price_percent = #{gPricePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gCommentPercent != null" >
+        g_comment_percent = #{gCommentPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="gMultiplePercent != null" >
+        g_multiple_percent = #{gMultiplePercent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Good" >
+    update tb_good
+    set g_type = #{gType,jdbcType=VARCHAR},
+      g_name = #{gName,jdbcType=VARCHAR},
+      g_detail = #{gDetail,jdbcType=VARCHAR},
+      g_sell_num = #{gSellNum,jdbcType=INTEGER},
+      g_aveprice = #{gAveprice,jdbcType=DECIMAL},
+      g_good_comment = #{gGoodComment,jdbcType=INTEGER},
+      g_sell_percent = #{gSellPercent,jdbcType=VARCHAR},
+      g_price_percent = #{gPricePercent,jdbcType=VARCHAR},
+      g_comment_percent = #{gCommentPercent,jdbcType=VARCHAR},
+      g_multiple_percent = #{gMultiplePercent,jdbcType=VARCHAR}
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+</mapper>

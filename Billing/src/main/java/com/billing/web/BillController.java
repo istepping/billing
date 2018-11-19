@@ -42,7 +42,7 @@ public class BillController extends BaseControl {
                 return failResponse("操作失败");
             }
         }else{
-            return failResponse("登陆过期");
+            return failResponse("授权失败");
         }
     }
     //添加账单
@@ -70,7 +70,7 @@ public class BillController extends BaseControl {
                 return failResponse();
             }
         }else{
-            return failResponse("登陆过期");
+            return failResponse("授权失败");
         }
     }
     //获取账单列表
@@ -78,6 +78,9 @@ public class BillController extends BaseControl {
     @ResponseBody
     public Result getBillList(){
         String token=getRequest().getHeader("authorization");
+        if (token==null){
+            return failResponse("authorization不能为空");
+        }
         if(UserMgr.isLogin(token)){
             Long uId= UserMgr.getUId(token);
             List<Bill> bills=billService.getBillList(uId);
@@ -85,7 +88,7 @@ public class BillController extends BaseControl {
             data.put("bill",bills);
             return successResponse(data);
         }else{
-            return failResponse("登陆过期");
+            return failResponse("授权失败");
         }
     }
 }

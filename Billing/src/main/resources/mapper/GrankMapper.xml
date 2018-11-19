@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.GrankMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Grank" >
+    <id column="t_id" property="tId" jdbcType="BIGINT" />
+    <result column="t_rank" property="tRank" jdbcType="INTEGER" />
+    <result column="t_gradeNo" property="tGradeno" jdbcType="INTEGER" />
+    <result column="t_grade" property="tGrade" jdbcType="VARCHAR" />
+    <result column="t_date" property="tDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_id, t_rank, t_gradeNo, t_grade, t_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_grank
+    where t_id = #{tId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_grank
+    where t_id = #{tId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Grank" >
+    insert into tb_grank (t_id, t_rank, t_gradeNo, 
+      t_grade, t_date)
+    values (#{tId,jdbcType=BIGINT}, #{tRank,jdbcType=INTEGER}, #{tGradeno,jdbcType=INTEGER}, 
+      #{tGrade,jdbcType=VARCHAR}, #{tDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Grank" >
+    insert into tb_grank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tId != null" >
+        t_id,
+      </if>
+      <if test="tRank != null" >
+        t_rank,
+      </if>
+      <if test="tGradeno != null" >
+        t_gradeNo,
+      </if>
+      <if test="tGrade != null" >
+        t_grade,
+      </if>
+      <if test="tDate != null" >
+        t_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tId != null" >
+        #{tId,jdbcType=BIGINT},
+      </if>
+      <if test="tRank != null" >
+        #{tRank,jdbcType=INTEGER},
+      </if>
+      <if test="tGradeno != null" >
+        #{tGradeno,jdbcType=INTEGER},
+      </if>
+      <if test="tGrade != null" >
+        #{tGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="tDate != null" >
+        #{tDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Grank" >
+    update tb_grank
+    <set >
+      <if test="tRank != null" >
+        t_rank = #{tRank,jdbcType=INTEGER},
+      </if>
+      <if test="tGradeno != null" >
+        t_gradeNo = #{tGradeno,jdbcType=INTEGER},
+      </if>
+      <if test="tGrade != null" >
+        t_grade = #{tGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="tDate != null" >
+        t_date = #{tDate,jdbcType=DATE},
+      </if>
+    </set>
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Grank" >
+    update tb_grank
+    set t_rank = #{tRank,jdbcType=INTEGER},
+      t_gradeNo = #{tGradeno,jdbcType=INTEGER},
+      t_grade = #{tGrade,jdbcType=VARCHAR},
+      t_date = #{tDate,jdbcType=DATE}
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+</mapper>
