@@ -17,11 +17,10 @@ public class SettingServiceImpl extends BaseService implements SettingService {
 	SettingMapper settingMapper;
 	
 	@Override
-    public ServiceResult updateSetting(Long uId,int openFamily,int uPrivate) {
+    public ServiceResult updateSetting(Long uId,int openFamily) {
 	    Setting setting=new Setting();
 	    setting.setuId(uId);
 	    setting.setuOpenFamily(openFamily);
-	    setting.setuPrivate(uPrivate);
 	    int result=settingMapper.updateByPrimaryKeySelective(new Setting());
 	    if(result>0){
 	    	return success();
