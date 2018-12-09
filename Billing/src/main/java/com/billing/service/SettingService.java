@@ -9,6 +9,6 @@ import com.billing.entity.Bill;
 
 @Service
 public interface SettingService{
-	 BaseService.ServiceResult updateSetting(Long uId,int openFamily,int uPrivate);
+	 BaseService.ServiceResult updateSetting(Long uId,int openFamily);
 	 BaseService.ServiceResult addSetting(Bill bill);
 }
