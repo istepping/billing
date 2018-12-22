@@ -1,171 +1,191 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.billing.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.billing.entity.User" >
-    <id column="u_id" property="uId" jdbcType="BIGINT" />
-    <result column="wx_id" property="wxId" jdbcType="VARCHAR" />
-    <result column="u_name" property="uName" jdbcType="VARCHAR" />
-    <result column="u_gender" property="uGender" jdbcType="VARCHAR" />
-    <result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
-    <result column="u_email" property="uEmail" jdbcType="VARCHAR" />
-    <result column="u_city" property="uCity" jdbcType="VARCHAR" />
-    <result column="u_school" property="uSchool" jdbcType="VARCHAR" />
-    <result column="u_no" property="uNo" jdbcType="VARCHAR" />
-    <result column="u_grade" property="uGrade" jdbcType="VARCHAR" />
-    <result column="u_class" property="uClass" jdbcType="VARCHAR" />
-    <result column="u_location" property="uLocation" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billing.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.billing.entity.User">
+    <id column="u_id" jdbcType="BIGINT" property="uId" />
+    <result column="wx_id" jdbcType="VARCHAR" property="wxId" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+    <result column="u_gender" jdbcType="VARCHAR" property="uGender" />
+    <result column="u_phone" jdbcType="VARCHAR" property="uPhone" />
+    <result column="u_email" jdbcType="VARCHAR" property="uEmail" />
+    <result column="u_city" jdbcType="VARCHAR" property="uCity" />
+    <result column="u_school" jdbcType="VARCHAR" property="uSchool" />
+    <result column="u_no" jdbcType="VARCHAR" property="uNo" />
+    <result column="u_grade" jdbcType="VARCHAR" property="uGrade" />
+    <result column="u_class" jdbcType="VARCHAR" property="uClass" />
+    <result column="u_location" jdbcType="VARCHAR" property="uLocation" />
+    <result column="u_extra" jdbcType="VARCHAR" property="uExtra" />
+    <result column="u_state" jdbcType="INTEGER" property="uState" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     u_id, wx_id, u_name, u_gender, u_phone, u_email, u_city, u_school, u_no, u_grade, 
-    u_class, u_location
+    u_class, u_location, u_extra, u_state
   </sql>
-  <select id="selectByWxId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByWxId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from tb_user
-    where wx_id = #{wxId,jdbcType=VARCHAR}
+    where wx_id = #{wxId,jdbcType=BIGINT}
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_user
     where u_id = #{uId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tb_user
     where u_id = #{uId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.billing.entity.User" >
+  <insert id="insert" parameterType="com.billing.entity.User">
     insert into tb_user (u_id, wx_id, u_name, 
       u_gender, u_phone, u_email, 
       u_city, u_school, u_no, 
-      u_grade, u_class, u_location
-      )
+      u_grade, u_class, u_location, 
+      u_extra, u_state)
     values (#{uId,jdbcType=BIGINT}, #{wxId,jdbcType=VARCHAR}, #{uName,jdbcType=VARCHAR}, 
       #{uGender,jdbcType=VARCHAR}, #{uPhone,jdbcType=VARCHAR}, #{uEmail,jdbcType=VARCHAR}, 
       #{uCity,jdbcType=VARCHAR}, #{uSchool,jdbcType=VARCHAR}, #{uNo,jdbcType=VARCHAR}, 
-      #{uGrade,jdbcType=VARCHAR}, #{uClass,jdbcType=VARCHAR}, #{uLocation,jdbcType=VARCHAR}
-      )
+      #{uGrade,jdbcType=VARCHAR}, #{uClass,jdbcType=VARCHAR}, #{uLocation,jdbcType=VARCHAR}, 
+      #{uExtra,jdbcType=VARCHAR}, #{uState,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.billing.entity.User" >
+  <insert id="insertSelective" parameterType="com.billing.entity.User">
     insert into tb_user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="uId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uId != null">
         u_id,
       </if>
-      <if test="wxId != null" >
+      <if test="wxId != null">
         wx_id,
       </if>
-      <if test="uName != null" >
+      <if test="uName != null">
         u_name,
       </if>
-      <if test="uGender != null" >
+      <if test="uGender != null">
         u_gender,
       </if>
-      <if test="uPhone != null" >
+      <if test="uPhone != null">
         u_phone,
       </if>
-      <if test="uEmail != null" >
+      <if test="uEmail != null">
         u_email,
       </if>
-      <if test="uCity != null" >
+      <if test="uCity != null">
         u_city,
       </if>
-      <if test="uSchool != null" >
+      <if test="uSchool != null">
         u_school,
       </if>
-      <if test="uNo != null" >
+      <if test="uNo != null">
         u_no,
       </if>
-      <if test="uGrade != null" >
+      <if test="uGrade != null">
         u_grade,
       </if>
-      <if test="uClass != null" >
+      <if test="uClass != null">
         u_class,
       </if>
-      <if test="uLocation != null" >
+      <if test="uLocation != null">
         u_location,
       </if>
+      <if test="uExtra != null">
+        u_extra,
+      </if>
+      <if test="uState != null">
+        u_state,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="uId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uId != null">
         #{uId,jdbcType=BIGINT},
       </if>
-      <if test="wxId != null" >
+      <if test="wxId != null">
         #{wxId,jdbcType=VARCHAR},
       </if>
-      <if test="uName != null" >
+      <if test="uName != null">
         #{uName,jdbcType=VARCHAR},
       </if>
-      <if test="uGender != null" >
+      <if test="uGender != null">
         #{uGender,jdbcType=VARCHAR},
       </if>
-      <if test="uPhone != null" >
+      <if test="uPhone != null">
         #{uPhone,jdbcType=VARCHAR},
       </if>
-      <if test="uEmail != null" >
+      <if test="uEmail != null">
         #{uEmail,jdbcType=VARCHAR},
       </if>
-      <if test="uCity != null" >
+      <if test="uCity != null">
         #{uCity,jdbcType=VARCHAR},
       </if>
-      <if test="uSchool != null" >
+      <if test="uSchool != null">
         #{uSchool,jdbcType=VARCHAR},
       </if>
-      <if test="uNo != null" >
+      <if test="uNo != null">
         #{uNo,jdbcType=VARCHAR},
       </if>
-      <if test="uGrade != null" >
+      <if test="uGrade != null">
         #{uGrade,jdbcType=VARCHAR},
       </if>
-      <if test="uClass != null" >
+      <if test="uClass != null">
         #{uClass,jdbcType=VARCHAR},
       </if>
-      <if test="uLocation != null" >
+      <if test="uLocation != null">
         #{uLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="uExtra != null">
+        #{uExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null">
+        #{uState,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.User">
     update tb_user
-    <set >
-      <if test="wxId != null" >
+    <set>
+      <if test="wxId != null">
         wx_id = #{wxId,jdbcType=VARCHAR},
       </if>
-      <if test="uName != null" >
+      <if test="uName != null">
         u_name = #{uName,jdbcType=VARCHAR},
       </if>
-      <if test="uGender != null" >
+      <if test="uGender != null">
         u_gender = #{uGender,jdbcType=VARCHAR},
       </if>
-      <if test="uPhone != null" >
+      <if test="uPhone != null">
         u_phone = #{uPhone,jdbcType=VARCHAR},
       </if>
-      <if test="uEmail != null" >
+      <if test="uEmail != null">
         u_email = #{uEmail,jdbcType=VARCHAR},
       </if>
-      <if test="uCity != null" >
+      <if test="uCity != null">
         u_city = #{uCity,jdbcType=VARCHAR},
       </if>
-      <if test="uSchool != null" >
+      <if test="uSchool != null">
         u_school = #{uSchool,jdbcType=VARCHAR},
       </if>
-      <if test="uNo != null" >
+      <if test="uNo != null">
         u_no = #{uNo,jdbcType=VARCHAR},
       </if>
-      <if test="uGrade != null" >
+      <if test="uGrade != null">
         u_grade = #{uGrade,jdbcType=VARCHAR},
       </if>
-      <if test="uClass != null" >
+      <if test="uClass != null">
         u_class = #{uClass,jdbcType=VARCHAR},
       </if>
-      <if test="uLocation != null" >
+      <if test="uLocation != null">
         u_location = #{uLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="uExtra != null">
+        u_extra = #{uExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null">
+        u_state = #{uState,jdbcType=INTEGER},
       </if>
     </set>
     where u_id = #{uId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.billing.entity.User" >
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.User">
     update tb_user
     set wx_id = #{wxId,jdbcType=VARCHAR},
       u_name = #{uName,jdbcType=VARCHAR},
@@ -177,7 +197,9 @@
       u_no = #{uNo,jdbcType=VARCHAR},
       u_grade = #{uGrade,jdbcType=VARCHAR},
       u_class = #{uClass,jdbcType=VARCHAR},
-      u_location = #{uLocation,jdbcType=VARCHAR}
+      u_location = #{uLocation,jdbcType=VARCHAR},
+      u_extra = #{uExtra,jdbcType=VARCHAR},
+      u_state = #{uState,jdbcType=INTEGER}
     where u_id = #{uId,jdbcType=BIGINT}
   </update>
 </mapper>

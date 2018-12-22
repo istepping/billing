@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.GtypeMapper">
+    <resultMap id="BaseResultMap" type="com.billing.entity.Gtype">
+        <id column="t_id" property="tId" jdbcType="BIGINT"/>
+        <result column="t_name" property="tName" jdbcType="VARCHAR"/>
+        <result column="t_ptypeId" property="tPtypeid" jdbcType="BIGINT"/>
+        <result column="t_ptypeName" property="tPtypename" jdbcType="VARCHAR"/>
+        <result column="t_belong" property="tBelong" jdbcType="VARCHAR"/>
+        <result column="t_extra" property="tExtra" jdbcType="VARCHAR"/>
+        <result column="t_state" property="tState" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    t_id, t_name, t_ptypeId, t_ptypeName, t_belong, t_extra, t_state
+    </sql>
+    <select id="selectByPTypeId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_gtype
+        where t_ptypeId=#{tPtypeid,jdbcType=BIGINT}
+    </select>
+    <select id="selectGtypes" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_gtype where t_ptypeId is null
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_gtype
+    where t_id = #{tId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.billing.entity.Gtype">
+    insert into tb_gtype (t_id, t_name, t_ptypeId, 
+      t_ptypeName, t_belong, t_extra, 
+      t_state)
+    values (#{tId,jdbcType=BIGINT}, #{tName,jdbcType=VARCHAR}, #{tPtypeid,jdbcType=BIGINT}, 
+      #{tPtypename,jdbcType=VARCHAR}, #{tBelong,jdbcType=VARCHAR}, #{tExtra,jdbcType=VARCHAR}, 
+      #{tState,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.billing.entity.Gtype">
+        insert into tb_gtype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tId != null">
+                t_id,
+            </if>
+            <if test="tName != null">
+                t_name,
+            </if>
+            <if test="tPtypeid != null">
+                t_ptypeId,
+            </if>
+            <if test="tPtypename != null">
+                t_ptypeName,
+            </if>
+            <if test="tBelong != null">
+                t_belong,
+            </if>
+            <if test="tExtra != null">
+                t_extra,
+            </if>
+            <if test="tState != null">
+                t_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tId != null">
+                #{tId,jdbcType=BIGINT},
+            </if>
+            <if test="tName != null">
+                #{tName,jdbcType=VARCHAR},
+            </if>
+            <if test="tPtypeid != null">
+                #{tPtypeid,jdbcType=BIGINT},
+            </if>
+            <if test="tPtypename != null">
+                #{tPtypename,jdbcType=VARCHAR},
+            </if>
+            <if test="tBelong != null">
+                #{tBelong,jdbcType=VARCHAR},
+            </if>
+            <if test="tExtra != null">
+                #{tExtra,jdbcType=VARCHAR},
+            </if>
+            <if test="tState != null">
+                #{tState,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Gtype">
+        update tb_gtype
+        <set>
+            <if test="tName != null">
+                t_name = #{tName,jdbcType=VARCHAR},
+            </if>
+            <if test="tPtypeid != null">
+                t_ptypeId = #{tPtypeid,jdbcType=BIGINT},
+            </if>
+            <if test="tPtypename != null">
+                t_ptypeName = #{tPtypename,jdbcType=VARCHAR},
+            </if>
+            <if test="tBelong != null">
+                t_belong = #{tBelong,jdbcType=VARCHAR},
+            </if>
+            <if test="tExtra != null">
+                t_extra = #{tExtra,jdbcType=VARCHAR},
+            </if>
+            <if test="tState != null">
+                t_state = #{tState,jdbcType=INTEGER},
+            </if>
+        </set>
+        where t_id = #{tId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.billing.entity.Gtype">
+    update tb_gtype
+    set t_name = #{tName,jdbcType=VARCHAR},
+      t_ptypeId = #{tPtypeid,jdbcType=BIGINT},
+      t_ptypeName = #{tPtypename,jdbcType=VARCHAR},
+      t_belong = #{tBelong,jdbcType=VARCHAR},
+      t_extra = #{tExtra,jdbcType=VARCHAR},
+      t_state = #{tState,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,5 +1,9 @@
 package com.billing.base;
 
+import com.billing.enums.FailInfoEnum;
+
+import java.util.Map;
+
 /**
  * @author sunLei on 2018/11/17 18:55
  * @version 1.0
@@ -13,11 +17,33 @@ public abstract class BaseService {
         serviceResult.setInfo("success");
         return serviceResult;
     }
+    public ServiceResult success(Map<String,Object> data){
+        ServiceResult serviceResult=new ServiceResult();
+        serviceResult.setSuccess(true);
+        serviceResult.setId(1);
+        serviceResult.setInfo("success");
+        serviceResult.setData(data);
+        return serviceResult;
+    }
     public ServiceResult success(String info){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(true);
         serviceResult.setId(1);
         serviceResult.setInfo(info);
+        return serviceResult;
+    }
+    public ServiceResult failInput(){
+        ServiceResult serviceResult=new ServiceResult();
+        serviceResult.setSuccess(false);
+        serviceResult.setId(0);
+        serviceResult.setInfo(FailInfoEnum.fail1.getInfo());
+        return serviceResult;
+    }
+    public ServiceResult failDataBase(){
+        ServiceResult serviceResult=new ServiceResult();
+        serviceResult.setSuccess(false);
+        serviceResult.setId(0);
+        serviceResult.setInfo(FailInfoEnum.fail2.getInfo());
         return serviceResult;
     }
     public ServiceResult fail(){
@@ -38,6 +64,7 @@ public abstract class BaseService {
         private boolean isSuccess;
         private int id;
         private String info;
+        private Map<String,Object> data;
         public boolean isSuccess() {
             return isSuccess;
         }
@@ -60,6 +87,14 @@ public abstract class BaseService {
 
         public void setInfo(String info) {
             this.info = info;
+        }
+
+        public Map<String, Object> getData() {
+            return data;
+        }
+
+        public void setData(Map<String, Object> data) {
+            this.data = data;
         }
     }
 }

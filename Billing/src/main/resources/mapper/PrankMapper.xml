@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.PrankMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Prank" >
+    <id column="r_id" property="rId" jdbcType="BIGINT" />
+    <result column="r_date" property="rDate" jdbcType="DATE" />
+    <result column="r_year" property="rYear" jdbcType="VARCHAR" />
+    <result column="r_month" property="rMonth" jdbcType="VARCHAR" />
+    <result column="r_week" property="rWeek" jdbcType="VARCHAR" />
+    <result column="r_day" property="rDay" jdbcType="VARCHAR" />
+    <result column="r_rank" property="rRank" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="BIGINT" />
+    <result column="r_score" property="rScore" jdbcType="INTEGER" />
+    <result column="r_extra" property="rExtra" jdbcType="VARCHAR" />
+    <result column="r_state" property="rState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r_id, r_date, r_year, r_month, r_week, r_day, r_rank, u_id, r_score, r_extra, r_state
+  </sql>
+  <select id="selectAllByMonth" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_prank
+    where r_year = #{rYear,jdbcType=VARCHAR} and r_month=#{rMonth,jdbcType=VARCHAR} order by r_score desc
+  </select>
+  <select id="selectPre10" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    (select
+    <include refid="Base_Column_List" />
+    from tb_prank
+    where r_year = #{rYear,jdbcType=VARCHAR} and r_month=#{rMonth,jdbcType=VARCHAR} order by r_score desc) as t
+    limit 10
+  </select>
+  <select id="selectByMonth" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_prank
+    where r_year = #{rYear,jdbcType=VARCHAR} and r_month=#{rMonth,jdbcType=VARCHAR} and u_id=#{uId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_prank
+    where r_id = #{rId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_prank
+    where r_id = #{rId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Prank" >
+    insert into tb_prank (r_id, r_date, r_year, 
+      r_month, r_week, r_day, 
+      r_rank, u_id, r_score, 
+      r_extra, r_state)
+    values (#{rId,jdbcType=BIGINT}, #{rDate,jdbcType=DATE}, #{rYear,jdbcType=VARCHAR}, 
+      #{rMonth,jdbcType=VARCHAR}, #{rWeek,jdbcType=VARCHAR}, #{rDay,jdbcType=VARCHAR}, 
+      #{rRank,jdbcType=INTEGER}, #{uId,jdbcType=BIGINT}, #{rScore,jdbcType=INTEGER}, 
+      #{rExtra,jdbcType=VARCHAR}, #{rState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Prank" >
+    insert into tb_prank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        r_id,
+      </if>
+      <if test="rDate != null" >
+        r_date,
+      </if>
+      <if test="rYear != null" >
+        r_year,
+      </if>
+      <if test="rMonth != null" >
+        r_month,
+      </if>
+      <if test="rWeek != null" >
+        r_week,
+      </if>
+      <if test="rDay != null" >
+        r_day,
+      </if>
+      <if test="rRank != null" >
+        r_rank,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="rScore != null" >
+        r_score,
+      </if>
+      <if test="rExtra != null" >
+        r_extra,
+      </if>
+      <if test="rState != null" >
+        r_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        #{rId,jdbcType=BIGINT},
+      </if>
+      <if test="rDate != null" >
+        #{rDate,jdbcType=DATE},
+      </if>
+      <if test="rYear != null" >
+        #{rYear,jdbcType=VARCHAR},
+      </if>
+      <if test="rMonth != null" >
+        #{rMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="rWeek != null" >
+        #{rWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="rDay != null" >
+        #{rDay,jdbcType=VARCHAR},
+      </if>
+      <if test="rRank != null" >
+        #{rRank,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="rScore != null" >
+        #{rScore,jdbcType=INTEGER},
+      </if>
+      <if test="rExtra != null" >
+        #{rExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="rState != null" >
+        #{rState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Prank" >
+    update tb_prank
+    <set >
+      <if test="rDate != null" >
+        r_date = #{rDate,jdbcType=DATE},
+      </if>
+      <if test="rYear != null" >
+        r_year = #{rYear,jdbcType=VARCHAR},
+      </if>
+      <if test="rMonth != null" >
+        r_month = #{rMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="rWeek != null" >
+        r_week = #{rWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="rDay != null" >
+        r_day = #{rDay,jdbcType=VARCHAR},
+      </if>
+      <if test="rRank != null" >
+        r_rank = #{rRank,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="rScore != null" >
+        r_score = #{rScore,jdbcType=INTEGER},
+      </if>
+      <if test="rExtra != null" >
+        r_extra = #{rExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="rState != null" >
+        r_state = #{rState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where r_id = #{rId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Prank" >
+    update tb_prank
+    set r_date = #{rDate,jdbcType=DATE},
+      r_year = #{rYear,jdbcType=VARCHAR},
+      r_month = #{rMonth,jdbcType=VARCHAR},
+      r_week = #{rWeek,jdbcType=VARCHAR},
+      r_day = #{rDay,jdbcType=VARCHAR},
+      r_rank = #{rRank,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=BIGINT},
+      r_score = #{rScore,jdbcType=INTEGER},
+      r_extra = #{rExtra,jdbcType=VARCHAR},
+      r_state = #{rState,jdbcType=INTEGER}
+    where r_id = #{rId,jdbcType=BIGINT}
+  </update>
+</mapper>

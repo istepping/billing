@@ -25,10 +25,45 @@ public class User {
 
     private String uLocation;
 
-    public User(){}
+    private String uExtra;
 
-    public User(String wxId){
-        this.wxId=wxId;
+    private Integer uState;
+    public User() {
+    }
+
+    public User(String wxId) {
+        this.wxId = wxId;
+    }
+
+    public User(Long uId, String uName, String uGender, String uPhone, String uEmail, String uCity, String uSchool, String uNo, String uGrade, String uClass, String uLocation) {
+        this.uId = uId;
+        this.uName = uName;
+        this.uGender = uGender;
+        this.uPhone = uPhone;
+        this.uEmail = uEmail;
+        this.uCity = uCity;
+        this.uSchool = uSchool;
+        this.uNo = uNo;
+        this.uGrade = uGrade;
+        this.uClass = uClass;
+        this.uLocation = uLocation;
+    }
+
+    public User(Long uId, String wxId, String uName, String uGender, String uPhone, String uEmail, String uCity, String uSchool, String uNo, String uGrade, String uClass, String uLocation, String uExtra, Integer uState) {
+        this.uId = uId;
+        this.wxId = wxId;
+        this.uName = uName;
+        this.uGender = uGender;
+        this.uPhone = uPhone;
+        this.uEmail = uEmail;
+        this.uCity = uCity;
+        this.uSchool = uSchool;
+        this.uNo = uNo;
+        this.uGrade = uGrade;
+        this.uClass = uClass;
+        this.uLocation = uLocation;
+        this.uExtra = uExtra;
+        this.uState = uState;
     }
 
     public Long getuId() {
@@ -125,5 +160,21 @@ public class User {
 
     public void setuLocation(String uLocation) {
         this.uLocation = uLocation == null ? null : uLocation.trim();
+    }
+
+    public String getuExtra() {
+        return uExtra;
+    }
+
+    public void setuExtra(String uExtra) {
+        this.uExtra = uExtra == null ? null : uExtra.trim();
+    }
+
+    public Integer getuState() {
+        return uState;
+    }
+
+    public void setuState(Integer uState) {
+        this.uState = uState;
     }
 }

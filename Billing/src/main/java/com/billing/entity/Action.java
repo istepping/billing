@@ -17,6 +17,25 @@ public class Action {
 
     private String aRandom;
 
+    private String aExtra;
+
+    private Integer aState;
+    public Action() {
+    }
+
+    public Action(Long aId, Long uId, String aHabit, String aCollection, String aImagine, String aReason, String aImpluse, String aRandom, String aExtra, Integer aState) {
+        this.aId = aId;
+        this.uId = uId;
+        this.aHabit = aHabit;
+        this.aCollection = aCollection;
+        this.aImagine = aImagine;
+        this.aReason = aReason;
+        this.aImpluse = aImpluse;
+        this.aRandom = aRandom;
+        this.aExtra = aExtra;
+        this.aState = aState;
+    }
+
     public Long getaId() {
         return aId;
     }
@@ -79,5 +98,21 @@ public class Action {
 
     public void setaRandom(String aRandom) {
         this.aRandom = aRandom == null ? null : aRandom.trim();
+    }
+
+    public String getaExtra() {
+        return aExtra;
+    }
+
+    public void setaExtra(String aExtra) {
+        this.aExtra = aExtra == null ? null : aExtra.trim();
+    }
+
+    public Integer getaState() {
+        return aState;
+    }
+
+    public void setaState(Integer aState) {
+        this.aState = aState;
     }
 }
