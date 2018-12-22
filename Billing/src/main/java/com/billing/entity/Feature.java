@@ -27,6 +27,30 @@ public class Feature {
 
     private String fParam11;
 
+    public Feature() {
+    }
+
+    public Feature(Long fId, Long uId, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
+        this.fId = fId;
+        this.uId = uId;
+        this.fParam1 = fParam1;
+        this.fParam2 = fParam2;
+        this.fParam3 = fParam3;
+        this.fParam4 = fParam4;
+        this.fParam5 = fParam5;
+        this.fParam6 = fParam6;
+    }
+
+    public Feature(Long uId, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
+        this.uId = uId;
+        this.fParam1 = fParam1;
+        this.fParam2 = fParam2;
+        this.fParam3 = fParam3;
+        this.fParam4 = fParam4;
+        this.fParam5 = fParam5;
+        this.fParam6 = fParam6;
+    }
+
     public Long getfId() {
         return fId;
     }

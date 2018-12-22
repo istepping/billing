@@ -20,6 +20,12 @@
     f_id, u_id, f_param1, f_param2, f_param3, f_param4, f_param5, f_param6, f_param7, 
     f_param8, f_param9, f_param10, f_param11
   </sql>
+  <select id="selectByUId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_feature
+    where u_id = #{uId,jdbcType=BIGINT}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

@@ -12,5 +12,9 @@ import org.springframework.stereotype.Service;
 public interface ActionService {
     //查询
     BaseService.ServiceResult getAction(Long uId);
+
     BaseService.ServiceResult getActionWithAlgo(Long uId);
+
+    //特征计算
+    void calculateFeature(Long uId);
 }

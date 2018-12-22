@@ -3,12 +3,14 @@ package com.billing.service.impl;
 import com.billing.base.BaseService;
 import com.billing.dao.ActionMapper;
 import com.billing.dao.BillMapper;
+import com.billing.dao.FeatureMapper;
 import com.billing.dao.GtypeMapper;
 import com.billing.dto.JsonBean;
 import com.billing.dto.MonthExposeCountDto;
 import com.billing.dto.TypeCountDto;
 import com.billing.entity.Action;
 import com.billing.entity.Bill;
+import com.billing.entity.Feature;
 import com.billing.entity.Gtype;
 import com.billing.service.ActionService;
 import com.billing.service.BillService;
@@ -42,6 +44,8 @@ public class ActionServiceImpl extends BaseService implements ActionService {
     private GtypeMapper gtypeMapper;
     @Autowired
     private BillService billService;
+    @Autowired
+    private FeatureMapper featureMapper;
 
     @Override
     public ServiceResult getAction(Long uId) {
@@ -52,7 +56,7 @@ public class ActionServiceImpl extends BaseService implements ActionService {
     }
 
     @Override
-    public BaseService.ServiceResult getActionWithAlgo(Long uId) {
+    public void calculateFeature(Long uId) {
         List<Bill> bills = billMapper.selectByUId(uId);
         BigDecimal moneyThan = new BigDecimal(0);//P
         BigDecimal sumMoney = new BigDecimal(0);//S
@@ -150,7 +154,19 @@ public class ActionServiceImpl extends BaseService implements ActionService {
         BigDecimal param5 = N.divide(sumMoney, 2, RoundingMode.HALF_UP);
         //常用商品比率
         BigDecimal param6 = L.divide(sumMoney, 2, RoundingMode.HALF_UP);
-        String response = API.INSTANCE.request("http://127.0.0.1:8000/get_action?param1=" + param1.toString() + "&param2=" + param2.toString() + "&param3=" + param3.toString() + "&param4=" + param4.toString() + "&param5=" + param5.toString() + "&param6=" + param6.toString());
+        Feature feature = featureMapper.selectByUId(uId);
+        if (feature == null) {
+            featureMapper.insert(new Feature(uId, param1.toString(), param2.toString(), param3.toString(), param4.toString(), param5.toString(), param6.toString()));
+        } else {
+            featureMapper.updateByPrimaryKeySelective(new Feature(feature.getfId(), uId, param1.toString(), param2.toString(), param3.toString(), param4.toString(), param5.toString(), param6.toString()));
+        }
+    }
+
+    @Override
+    public BaseService.ServiceResult getActionWithAlgo(Long uId) {
+        calculateFeature(uId);
+        Feature feature = featureMapper.selectByUId(uId);
+        String response = API.INSTANCE.request("http://127.0.0.1:8000/get_action?param1=" + feature.getfParam1() + "&param2=" + feature.getfParam2() + "&param3=" + feature.getfParam3() + "&param4=" + feature.getfParam4() + "&param5=" + feature.getfParam5() + "&param6=" + feature.getfParam6());
         JSONObject jsonObject = JSONObject.fromObject(response);
         JsonBean jsonBean = (JsonBean) JSONObject.toBean(jsonObject, JsonBean.class);
         Action action = new Action();
