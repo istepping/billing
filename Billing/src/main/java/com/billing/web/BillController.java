@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.billing.utils.Assist.logger;
 import static com.billing.utils.Assist.print;
@@ -33,78 +34,85 @@ import static com.billing.utils.Assist.print;
 public class BillController extends BaseController {
     @Autowired
     private BillService billService;
+
     //获取孩子账单
     //按年获取分类统计
     @RequestMapping("/getChildBills")
     @ResponseBody
     public Result getChildBills() {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        BaseService.ServiceResult result=billService.getChildBills(uId);
+        BaseService.ServiceResult result = billService.getChildBills(uId);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //按年获取分类统计
     @RequestMapping("/getTypeSumByYear")
     @ResponseBody
     public Result getTypeSumByYear(String year) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        BaseService.ServiceResult result=billService.getTypeSumByYear(uId,year);
+        BaseService.ServiceResult result = billService.getTypeSumByYear(uId, year);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //按年获取每月统计
     @RequestMapping("/getMonthSumByYear")
     @ResponseBody
     public Result getMonthSumByYear(String year) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        BaseService.ServiceResult result=billService.getMonthSumByYear(uId,year);
+        BaseService.ServiceResult result = billService.getMonthSumByYear(uId, year);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //获取月每天账单统计
     @RequestMapping("/getBillsByMonth")
     @ResponseBody
-    public Result getBillsByMonth(String year,String month,String level,String type) {
-        BaseService.ServiceResult result=billService.getBillsByMonth(year,month,level,type);
+    public Result getBillsByMonth(String year, String month, String level, String type) {
+        BaseService.ServiceResult result = billService.getBillsByMonth(year, month, level, type);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //获取月每天账单统计
     @RequestMapping("/getDayBillWithMonth")
     @ResponseBody
-    public Result getDayBillWithMonth(String year,String month) {
+    public Result getDayBillWithMonth(String year, String month) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        BaseService.ServiceResult result=billService.getDayBillByMonth(uId,year,month);
+        BaseService.ServiceResult result = billService.getDayBillByMonth(uId, year, month);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //获取个人账单月统计
     @RequestMapping("/getTypeBill")
     @ResponseBody
-    public Result getTypeBill(String year,String month) {
+    public Result getTypeBill(String year, String month) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        BaseService.ServiceResult result=billService.getTypeBill(uId,year,month);
+        BaseService.ServiceResult result = billService.getTypeBill(uId, year, month);
         if (result.isSuccess()) {
             return successResponse(result.getData());
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //删除账单
     @RequestMapping("/deleteBill")
     @ResponseBody
@@ -118,12 +126,13 @@ public class BillController extends BaseController {
         }
 
     }
+
     //添加账单备注
     @RequestMapping("/addExtra")
     @ResponseBody
     public Result addExtra(String bId, String extraInfo) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        print("extraoInfo"+extraInfo);
+        print("extraoInfo" + extraInfo);
         BaseService.ServiceResult result = billService.addExtra(Long.valueOf(bId), uId, extraInfo);
         if (result.isSuccess()) {
             return successResponse();
@@ -131,32 +140,34 @@ public class BillController extends BaseController {
             return failResponse(result.getInfo());
         }
     }
+
     //添加账单(含详细类型)
     @RequestMapping("/addBillWithTypes")
     @ResponseBody
-    public Result addBillWithTypes(String saveTime, String bType, String money, String gType,String gType2,String gType3,String gType4, String gDetail, String location, String extraInfo) {
+    public Result addBillWithTypes(String saveTime, String bType, String money, String gType, String gType2, String gType3, String gType4, String gDetail, String location, String extraInfo) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        Bill bill = new Bill(uId,new Date(),bType,BigDecimal.valueOf(Integer.parseInt(money)),gType,gType2,gType3,gType4,gDetail,location,extraInfo);
-        DateFormat format=new SimpleDateFormat("YY-MM-DD hh:mm:ss");
-        if(saveTime==null){
-            Date time=new Date();
+        Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Integer.parseInt(money)), gType, gType2, gType3, gType4, gDetail, location, extraInfo);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (saveTime == null) {
+            Date time = new Date();
             bill.setSaveTime(time);
-        }else{
+        } else {
             try {
-                Date date=format.parse(saveTime);
+                Date date = format.parse(saveTime);
                 bill.setSaveTime(date);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return failResponse("时间格式不正确");
             }
         }
-        BaseService.ServiceResult result=billService.addBillByUId(bill);
+        BaseService.ServiceResult result = billService.addBillByUId(bill);
         if (result.isSuccess()) {
             return successResponse();
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //添加账单
     @RequestMapping("/addBill")
     @ResponseBody
@@ -168,29 +179,30 @@ public class BillController extends BaseController {
         bill.setExtraInfo(extraInfo);
         bill.setgDetail(gDetail);
         bill.setLocation(location);
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         print(saveTime);
-        if(saveTime==null){
+        if (saveTime == null) {
             bill.setSaveTime(new Date());
-        }else{
+        } else {
             try {
-                Date date=format.parse(saveTime);
+                Date date = format.parse(saveTime);
                 logger.debug(date.toString());
                 bill.setSaveTime(date);
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
                 return failResponse("时间格式不正确");
             }
         }
         bill.setMoney(BigDecimal.valueOf(Integer.parseInt(money)));
         bill.setgType(gType);
-        BaseService.ServiceResult result=billService.addBillByUId(bill);
+        BaseService.ServiceResult result = billService.addBillByUId(bill);
         if (result.isSuccess()) {
             return successResponse();
         } else {
             return failResponse(result.getInfo());
         }
     }
+
     //获取账单列表
     @RequestMapping("/getBillList")
     @ResponseBody

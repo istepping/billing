@@ -7,6 +7,7 @@ import com.billing.dao.UserInfoMapper;
 import com.billing.dao.UserMapper;
 import com.billing.dto.MonthRankDto;
 import com.billing.dto.PersonRankDto;
+import com.billing.dto.PrankInfo;
 import com.billing.entity.Feature;
 import com.billing.entity.Prank;
 import com.billing.entity.User;
@@ -46,44 +47,47 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         if (!isNumber(year) || !isNumber(month)) {
             return fail(FailInfoEnum.fail1.getInfo());
         }
-        List<Prank> pranks = prankMapper.selectByMonth(year, month, uId);
-        //首次请求处理部分,计算比零评分
-        if (pranks.size() <= 0) {
-            //计算评分，插入数据
-            Prank prank = new Prank();
-            prank.setrYear(year);
-            prank.setrMonth(month);
-            prank.setrDate(new Date());
-            prank.setrState(0);
-            prank.setuId(uId);
-            float score;
-            Feature feature = featureMapper.selectByUId(uId);
-            if (feature == null) {
-                actionService.calculateFeature(uId);
-                feature = featureMapper.selectByUId(uId);
-            }
-            Float score1 = MathUtil.INSTANCE.getScore(feature.getfParam1(), 0.5f);
-            Float score2 = MathUtil.INSTANCE.getScore(feature.getfParam2(), 0.2f);
-            Float score3 = MathUtil.INSTANCE.getScore(feature.getfParam3(), 0.3f);
-            Float score4 = MathUtil.INSTANCE.getScore(feature.getfParam4(), 0.2f);
-            Float score5 = MathUtil.INSTANCE.getScore(feature.getfParam5(), 0.95f);
-            Float score6 = MathUtil.INSTANCE.getScore(feature.getfParam6(), 0.9f);
-            score = score1 + score2 + score3 + score4 + score5;
-            prank.setrScore((int) score);
-            prankMapper.insert(prank);
-            pranks = prankMapper.selectByMonth(year, month, uId);
+        //计算评分，插入数据
+        List<Prank> pranks  = prankMapper.selectByMonth(year, month, uId);
+        Prank prank = new Prank();
+        prank.setrYear(year);
+        prank.setrMonth(month);
+        prank.setrDate(new Date());
+        prank.setrState(0);
+        prank.setuId(uId);
+        float score;
+        Feature feature = featureMapper.selectByUId(uId);
+        if (feature == null) {
+            actionService.calculateFeature(uId);
+            feature = featureMapper.selectByUId(uId);
         }
-        //首次请求处理部分结束
+        Float score1 = MathUtil.INSTANCE.getScore(feature.getfParam1(), 0.5f);
+        Float score2 = MathUtil.INSTANCE.getScore(feature.getfParam2(), 0.2f);
+        Float score3 = MathUtil.INSTANCE.getScore(feature.getfParam3(), 0.3f);
+        Float score4 = MathUtil.INSTANCE.getScore(feature.getfParam4(), 0.2f);
+        Float score5 = MathUtil.INSTANCE.getScore(feature.getfParam5(), 0.95f);
+        Float score6 = MathUtil.INSTANCE.getScore(feature.getfParam6(), 0.9f);
+        score = score1 + score2 + score3 + score4 + score5 + score6;
+        prank.setrScore((int) score);
+        if(pranks.size()<=0){
+            prankMapper.insert(prank);
+        }else{
+            prank.setrId(pranks.get(0).getrId());
+            prankMapper.updateByPrimaryKeySelective(prank);
+        }
+        //计算评分完成
         //重新计算排名信息
         List<Prank> prankAll = prankMapper.selectAllByMonth(year, month);
         for (int i = 0; i < prankAll.size(); i++) {
             prankAll.get(i).setrRank(i + 1);
             prankMapper.updateByPrimaryKey(prankAll.get(i));
         }
-        pranks = prankMapper.selectByMonth(year, month, uId);
         //重新计算排名信息结束
+        //返回数据
+        pranks  = prankMapper.selectByMonth(year, month, uId);
+        PrankInfo prankInfo=new PrankInfo(pranks.get(0),String.valueOf(score),String.valueOf(score1),String.valueOf(score2),String.valueOf(score3),String.valueOf(score4),String.valueOf(score5),String.valueOf(score6));
         Map<String, Object> data = new HashMap<>();
-        data.put("pranks", pranks);
+        data.put("prankInfo", prankInfo);
         return success(data);
     }
 
