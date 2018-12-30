@@ -40,6 +40,17 @@ public class Bill {
     public Bill() {
     }
 
+    public Bill(Long bId, Long uId, Date saveTime, String bType, BigDecimal money, String gDetail, String location, String extraInfo) {
+        this.bId = bId;
+        this.uId = uId;
+        this.saveTime = saveTime;
+        this.bType = bType;
+        this.money = money;
+        this.gDetail = gDetail;
+        this.location = location;
+        this.extraInfo = extraInfo;
+    }
+
     public Bill(Long uId, Date saveTime, String bType, BigDecimal money, String gType, String gType2, String gType3, String gType4, String gDetail, String location, String extraInfo) {
         this.uId = uId;
         this.saveTime = saveTime;

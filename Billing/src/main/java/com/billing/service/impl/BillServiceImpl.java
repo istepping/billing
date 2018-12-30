@@ -44,6 +44,16 @@ public class BillServiceImpl extends BaseService implements BillService {
     SettingMapper settingMapper;
 
     @Override
+    public ServiceResult updateBillByBId(Bill bill) {
+        int result=billMapper.updateByPrimaryKeySelective(bill);
+        if (result>0){
+            return success();
+        }else{
+            return failDataBase();
+        }
+    }
+
+    @Override
     public ServiceResult addExtra(Long bId, Long uId, String extraInfo) {
         Bill bill = billMapper.selectByPrimaryKey(bId);
         if (bill.getuId().equals(uId)) {

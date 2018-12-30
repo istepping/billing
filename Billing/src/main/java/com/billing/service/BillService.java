@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public interface BillService {
+    BaseService.ServiceResult updateBillByBId(Bill bill);
     BaseService.ServiceResult addExtra(Long bId, Long uId, String extraInfo);
 
     BaseService.ServiceResult deleteBill(Long bId, Long uId);

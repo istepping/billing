@@ -5,6 +5,8 @@ import com.billing.base.BaseService;
 import com.billing.entity.Bill;
 import com.billing.manager.UserMgr;
 import com.billing.service.BillService;
+import com.billing.utils.Auth;
+import com.billing.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,48 @@ import static com.billing.utils.Assist.print;
 public class BillController extends BaseController {
     @Autowired
     private BillService billService;
-
+    //更新账单
+    @RequestMapping("/updateBillById")
+    @ResponseBody
+    public Result updateBillById(String bId,String saveTime, String bType, String money, String gDetail, String location, String extraInfo){
+        Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
+        if(!Auth.isNumber(bId)){
+            return failResponse("账单号不正确!");
+        }
+        Bill bill = new Bill();
+        bill.setbId(Long.valueOf(bId));
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (saveTime != null) {
+            try {
+                Date date = format.parse(saveTime);
+                bill.setSaveTime(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return failResponse("时间格式不正确!");
+            }
+        }
+        if(bType!=null){
+            bill.setbType(bType);
+        }
+        if(money!=null){
+             bill.setMoney(new BigDecimal(money));
+        }
+        if(gDetail!=null){
+            bill.setgDetail(gDetail);
+        }
+        if(location!=null){
+            bill.setLocation(location);
+        }
+        if(extraInfo!=null){
+            bill.setExtraInfo(extraInfo);
+        }
+        BaseService.ServiceResult result = billService.updateBillByBId(bill);
+        if (result.isSuccess()) {
+            return successResponse();
+        } else {
+            return failResponse(result.getInfo());
+        }
+    }
     //获取孩子账单
     //按年获取分类统计
     @RequestMapping("/getChildBills")
@@ -144,7 +187,7 @@ public class BillController extends BaseController {
     //添加账单(含详细类型)
     @RequestMapping("/addBillWithTypes")
     @ResponseBody
-    public Result addBillWithTypes(String saveTime, String bType, String money, String gType, String gType2, String gType3, String gType4, String gDetail, String location, String extraInfo) {
+    public Result addBillWithTypes(String saveTime, String bType, String money, String gType, String gType2,   String gType3, String gType4, String gDetail, String location, String extraInfo) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
         Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Integer.parseInt(money)), gType, gType2, gType3, gType4, gDetail, location, extraInfo);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
