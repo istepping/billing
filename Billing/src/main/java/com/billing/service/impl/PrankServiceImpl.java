@@ -47,45 +47,19 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         if (!isNumber(year) || !isNumber(month)) {
             return fail(FailInfoEnum.fail1.getInfo());
         }
-        //计算评分，插入数据
-        List<Prank> pranks  = prankMapper.selectByMonth(year, month, uId);
-        Prank prank = new Prank();
-        prank.setrYear(year);
-        prank.setrMonth(month);
-        prank.setrDate(new Date());
-        prank.setrState(0);
-        prank.setuId(uId);
-        float score;
-        Feature feature = featureMapper.selectByUId(uId);
-        if (feature == null) {
-            actionService.calculateFeature(uId);
-            feature = featureMapper.selectByUId(uId);
+        ServiceResult result = preHandle(year, month);
+        if (!result.isSuccess()) {
+            return fail(result.getInfo());
         }
-        Float score1 = MathUtil.INSTANCE.getScore(feature.getfParam1(), 0.5f);
-        Float score2 = MathUtil.INSTANCE.getScore(feature.getfParam2(), 0.2f);
-        Float score3 = MathUtil.INSTANCE.getScore(feature.getfParam3(), 0.3f);
-        Float score4 = MathUtil.INSTANCE.getScore(feature.getfParam4(), 0.2f);
-        Float score5 = MathUtil.INSTANCE.getScore(feature.getfParam5(), 0.95f);
-        Float score6 = MathUtil.INSTANCE.getScore(feature.getfParam6(), 0.9f);
-        score = score1 + score2 + score3 + score4 + score5 + score6;
-        prank.setrScore((int) score);
-        if(pranks.size()<=0){
-            prankMapper.insert(prank);
-        }else{
-            prank.setrId(pranks.get(0).getrId());
-            prankMapper.updateByPrimaryKeySelective(prank);
-        }
-        //计算评分完成
-        //重新计算排名信息
-        List<Prank> prankAll = prankMapper.selectAllByMonth(year, month);
-        for (int i = 0; i < prankAll.size(); i++) {
-            prankAll.get(i).setrRank(i + 1);
-            prankMapper.updateByPrimaryKey(prankAll.get(i));
-        }
-        //重新计算排名信息结束
-        //返回数据
-        pranks  = prankMapper.selectByMonth(year, month, uId);
-        PrankInfo prankInfo=new PrankInfo(pranks.get(0),String.valueOf(score),String.valueOf(score1),String.valueOf(score2),String.valueOf(score3),String.valueOf(score4),String.valueOf(score5),String.valueOf(score6));
+        List<Prank> pranks = prankMapper.selectByMonth(year, month, uId);
+        int score = pranks.get(0).getrScore();
+        int score1 = pranks.get(0).getrScore1();
+        int score2 = pranks.get(0).getrScore2();
+        int score3 = pranks.get(0).getrScore3();
+        int score4 = pranks.get(0).getrScore4();
+        int score5 = pranks.get(0).getrScore5();
+        int score6 = pranks.get(0).getrScore6();
+        PrankInfo prankInfo = new PrankInfo(pranks.get(0), String.valueOf(score), String.valueOf(score1), String.valueOf(score2), String.valueOf(score3), String.valueOf(score4), String.valueOf(score5), String.valueOf(score6));
         Map<String, Object> data = new HashMap<>();
         data.put("prankInfo", prankInfo);
         return success(data);
@@ -95,6 +69,11 @@ public class PrankServiceImpl extends BaseService implements PrankService {
     public ServiceResult getPre10Ranks(String year, String month) {
         if (!isNumber(year) || !isNumber(month)) {
             return fail(FailInfoEnum.fail1.getInfo());
+        }
+        //预处理
+        ServiceResult result = preHandle(year, month);
+        if (!result.isSuccess()) {
+            return fail(result.getInfo());
         }
         List<Prank> pranks = prankMapper.selectPre10(year, month);
         //处理数据
@@ -131,6 +110,11 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;//当前月
+        //预处理
+        ServiceResult result = preHandle(String.valueOf(year), String.valueOf(month - 1));
+        if (!result.isSuccess()) {
+            return fail(result.getInfo());
+        }
         //12个月前
         for (int i = 0; i < 12; i++) {
             if (month > 1) {
@@ -192,5 +176,66 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         data.put("school", user.getuSchool());
         data.put("monthRanks", monthRankDtos);
         return success(data);
+    }
+
+    @Override
+    public ServiceResult preHandle(String year, String month) {
+        //year,month合法
+        Calendar now = Calendar.getInstance();
+        int nowYear = now.get(Calendar.YEAR);
+        int nowMonth = now.get(Calendar.MONTH) + 1;
+        if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) >= nowMonth)) {
+            return fail("暂无改时间的排名信息");
+        }
+        List<Prank> pranks = prankMapper.selectAllByMonth(year, month);
+        if (pranks.size() > 5 && pranks.get(0).getrScore1() != null) {
+            //5，容错数
+            return success("已有排名信息");
+        }
+        //统计排名信息[计算评分][计算排名]
+        List<User> users = userMapper.selectAllUsers();
+        for (User user : users) {
+            Long uId = user.getuId();
+            Prank prank = new Prank();
+            prank.setrYear(year);
+            prank.setrMonth(month);
+            prank.setrDate(new Date());
+            prank.setrState(0);
+            prank.setuId(uId);
+            float score;
+            Feature feature = featureMapper.selectByUId(uId);
+            if (feature == null) {
+                actionService.calculateFeature(uId);
+                feature = featureMapper.selectByUId(uId);
+            }
+            Float score1 = MathUtil.INSTANCE.getScore(feature.getfParam1(), 0.5f);
+            Float score2 = MathUtil.INSTANCE.getScore(feature.getfParam2(), 0.2f);
+            Float score3 = MathUtil.INSTANCE.getScore(feature.getfParam3(), 0.3f);
+            Float score4 = MathUtil.INSTANCE.getScore(feature.getfParam4(), 0.2f);
+            Float score5 = MathUtil.INSTANCE.getScore(feature.getfParam5(), 0.95f);
+            Float score6 = MathUtil.INSTANCE.getScore(feature.getfParam6(), 0.9f);
+            score = score1 + score2 + score3 + score4 + score5 + score6;
+            prank.setrScore((int) score);
+            prank.setrScore1((int) (float) score1);
+            prank.setrScore2((int) (float) score2);
+            prank.setrScore3((int) (float) score3);
+            prank.setrScore4((int) (float) score4);
+            prank.setrScore5((int) (float) score5);
+            prank.setrScore6((int) (float) score6);
+            pranks = prankMapper.selectByMonth(year, month, uId);
+            if (pranks.size() <= 0) {
+                prankMapper.insert(prank);
+            } else {
+                prank.setrId(pranks.get(0).getrId());
+                prankMapper.updateByPrimaryKeySelective(prank);
+            }
+        }
+        //计算排名
+        List<Prank> prankAll = prankMapper.selectAllByMonth(year, month);
+        for (int i = 0; i < prankAll.size(); i++) {
+            prankAll.get(i).setrRank(i + 1);
+            prankMapper.updateByPrimaryKey(prankAll.get(i));
+        }
+        return success();
     }
 }

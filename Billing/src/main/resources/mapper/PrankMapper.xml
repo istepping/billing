@@ -11,11 +11,17 @@
     <result column="r_rank" property="rRank" jdbcType="INTEGER" />
     <result column="u_id" property="uId" jdbcType="BIGINT" />
     <result column="r_score" property="rScore" jdbcType="INTEGER" />
+    <result column="r_score1" property="rScore1" jdbcType="INTEGER" />
+    <result column="r_score2" property="rScore2" jdbcType="INTEGER" />
+    <result column="r_score3" property="rScore3" jdbcType="INTEGER" />
+    <result column="r_score4" property="rScore4" jdbcType="INTEGER" />
+    <result column="r_score5" property="rScore5" jdbcType="INTEGER" />
+    <result column="r_score6" property="rScore6" jdbcType="INTEGER" />
     <result column="r_extra" property="rExtra" jdbcType="VARCHAR" />
     <result column="r_state" property="rState" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    r_id, r_date, r_year, r_month, r_week, r_day, r_rank, u_id, r_score, r_extra, r_state
+    r_id, r_date, r_year, r_month, r_week, r_day, r_rank, u_id, r_score,r_score1,r_score2,r_score3,r_score4,r_score5,r_score6, r_extra, r_state
   </sql>
   <select id="selectAllByMonth" resultMap="BaseResultMap">
     select
@@ -52,11 +58,14 @@
   <insert id="insert" parameterType="com.billing.entity.Prank" >
     insert into tb_prank (r_id, r_date, r_year, 
       r_month, r_week, r_day, 
-      r_rank, u_id, r_score, 
+      r_rank, u_id, r_score, r_score1,
+      r_score2, r_score3, r_score4, r_score5,r_score6,
       r_extra, r_state)
     values (#{rId,jdbcType=BIGINT}, #{rDate,jdbcType=DATE}, #{rYear,jdbcType=VARCHAR}, 
       #{rMonth,jdbcType=VARCHAR}, #{rWeek,jdbcType=VARCHAR}, #{rDay,jdbcType=VARCHAR}, 
-      #{rRank,jdbcType=INTEGER}, #{uId,jdbcType=BIGINT}, #{rScore,jdbcType=INTEGER}, 
+      #{rRank,jdbcType=INTEGER}, #{uId,jdbcType=BIGINT}, #{rScore,jdbcType=INTEGER},
+      #{rScore1,jdbcType=INTEGER},#{rScore2,jdbcType=INTEGER},#{rScore3,jdbcType=INTEGER},
+      #{rScore4,jdbcType=INTEGER},#{rScore5,jdbcType=INTEGER},#{rScore6,jdbcType=INTEGER},
       #{rExtra,jdbcType=VARCHAR}, #{rState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.billing.entity.Prank" >
@@ -88,6 +97,24 @@
       </if>
       <if test="rScore != null" >
         r_score,
+      </if>
+      <if test="rScore1 != null" >
+        r_score1,
+      </if>
+      <if test="rScore2 != null" >
+        r_score2,
+      </if>
+      <if test="rScore3 != null" >
+        r_score3,
+      </if>
+      <if test="rScore4 != null" >
+        r_score4,
+      </if>
+      <if test="rScore5 != null" >
+        r_score5,
+      </if>
+      <if test="rScore6 != null" >
+        r_score6,
       </if>
       <if test="rExtra != null" >
         r_extra,
@@ -124,6 +151,24 @@
       <if test="rScore != null" >
         #{rScore,jdbcType=INTEGER},
       </if>
+      <if test="rScore1 != null" >
+        #{rScore1,jdbcType=INTEGER},
+      </if>
+      <if test="rScore2 != null" >
+        #{rScore2,jdbcType=INTEGER},
+      </if>
+      <if test="rScore3 != null" >
+        #{rScore3,jdbcType=INTEGER},
+      </if>
+      <if test="rScore4 != null" >
+        #{rScore4,jdbcType=INTEGER},
+      </if>
+      <if test="rScore5 != null" >
+        #{rScore5,jdbcType=INTEGER},
+      </if>
+      <if test="rScore6 != null" >
+        #{rScore6,jdbcType=INTEGER},
+      </if>
       <if test="rExtra != null" >
         #{rExtra,jdbcType=VARCHAR},
       </if>
@@ -159,6 +204,24 @@
       <if test="rScore != null" >
         r_score = #{rScore,jdbcType=INTEGER},
       </if>
+      <if test="rScore1 != null" >
+        r_score1 = #{rScore1,jdbcType=INTEGER},
+      </if>
+      <if test="rScore2 != null" >
+        r_score2 = #{rScore2,jdbcType=INTEGER},
+      </if>
+      <if test="rScore3 != null" >
+        r_score3 = #{rScore3,jdbcType=INTEGER},
+      </if>
+      <if test="rScore4 != null" >
+        r_score4 = #{rScore4,jdbcType=INTEGER},
+      </if>
+      <if test="rScore5 != null" >
+        r_score5 = #{rScore5,jdbcType=INTEGER},
+      </if>
+      <if test="rScore6 != null" >
+        r_score6 = #{rScore6,jdbcType=INTEGER},
+      </if>
       <if test="rExtra != null" >
         r_extra = #{rExtra,jdbcType=VARCHAR},
       </if>
@@ -178,6 +241,12 @@
       r_rank = #{rRank,jdbcType=INTEGER},
       u_id = #{uId,jdbcType=BIGINT},
       r_score = #{rScore,jdbcType=INTEGER},
+      r_score1 = #{rScore1,jdbcType=INTEGER},
+      r_score2 = #{rScore2,jdbcType=INTEGER},
+      r_score3 = #{rScore3,jdbcType=INTEGER},
+      r_score4 = #{rScore4,jdbcType=INTEGER},
+      r_score5 = #{rScore5,jdbcType=INTEGER},
+      r_score6 = #{rScore6,jdbcType=INTEGER},
       r_extra = #{rExtra,jdbcType=VARCHAR},
       r_state = #{rState,jdbcType=INTEGER}
     where r_id = #{rId,jdbcType=BIGINT}

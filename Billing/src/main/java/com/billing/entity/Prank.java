@@ -21,6 +21,18 @@ public class Prank {
 
     private Integer rScore;
 
+    private Integer rScore1;
+
+    private Integer rScore2;
+
+    private Integer rScore3;
+
+    private Integer rScore4;
+
+    private Integer rScore5;
+
+    private Integer rScore6;
+
     private String rExtra;
 
     private Integer rState;
@@ -111,5 +123,53 @@ public class Prank {
 
     public void setrState(Integer rState) {
         this.rState = rState;
+    }
+
+    public Integer getrScore1() {
+        return rScore1;
+    }
+
+    public void setrScore1(Integer rScore1) {
+        this.rScore1 = rScore1;
+    }
+
+    public Integer getrScore2() {
+        return rScore2;
+    }
+
+    public void setrScore2(Integer rScore2) {
+        this.rScore2 = rScore2;
+    }
+
+    public Integer getrScore3() {
+        return rScore3;
+    }
+
+    public void setrScore3(Integer rScore3) {
+        this.rScore3 = rScore3;
+    }
+
+    public Integer getrScore4() {
+        return rScore4;
+    }
+
+    public void setrScore4(Integer rScore4) {
+        this.rScore4 = rScore4;
+    }
+
+    public Integer getrScore5() {
+        return rScore5;
+    }
+
+    public void setrScore5(Integer rScore5) {
+        this.rScore5 = rScore5;
+    }
+
+    public Integer getrScore6() {
+        return rScore6;
+    }
+
+    public void setrScore6(Integer rScore6) {
+        this.rScore6 = rScore6;
     }
 }

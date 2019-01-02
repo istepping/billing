@@ -21,6 +21,11 @@
     u_id, wx_id, u_name, u_gender, u_phone, u_email, u_city, u_school, u_no, u_grade, 
     u_class, u_location, u_extra, u_state
   </sql>
+  <select id="selectAllUsers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+  </select>
   <select id="selectByWxId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
