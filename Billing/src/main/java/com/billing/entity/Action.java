@@ -23,6 +23,16 @@ public class Action {
     public Action() {
     }
 
+    public Action(Long uId, String aHabit, String aCollection, String aImagine, String aReason, String aImpluse, String aRandom) {
+        this.uId = uId;
+        this.aHabit = aHabit;
+        this.aCollection = aCollection;
+        this.aImagine = aImagine;
+        this.aReason = aReason;
+        this.aImpluse = aImpluse;
+        this.aRandom = aRandom;
+    }
+
     public Action(Long aId, Long uId, String aHabit, String aCollection, String aImagine, String aReason, String aImpluse, String aRandom, String aExtra, Integer aState) {
         this.aId = aId;
         this.uId = uId;

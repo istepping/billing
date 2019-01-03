@@ -5,6 +5,10 @@ public class Feature {
 
     private Long uId;
 
+    private String fYear;
+
+    private String fMonth;
+
     private String fParam1;
 
     private String fParam2;
@@ -30,9 +34,10 @@ public class Feature {
     public Feature() {
     }
 
-    public Feature(Long fId, Long uId, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
-        this.fId = fId;
+    public Feature(Long uId, String fYear, String fMonth, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
         this.uId = uId;
+        this.fYear = fYear;
+        this.fMonth = fMonth;
         this.fParam1 = fParam1;
         this.fParam2 = fParam2;
         this.fParam3 = fParam3;
@@ -41,8 +46,11 @@ public class Feature {
         this.fParam6 = fParam6;
     }
 
-    public Feature(Long uId, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
+    public Feature(Long fId, Long uId, String fYear, String fMonth, String fParam1, String fParam2, String fParam3, String fParam4, String fParam5, String fParam6) {
+        this.fId = fId;
         this.uId = uId;
+        this.fYear = fYear;
+        this.fMonth = fMonth;
         this.fParam1 = fParam1;
         this.fParam2 = fParam2;
         this.fParam3 = fParam3;
@@ -65,6 +73,22 @@ public class Feature {
 
     public void setuId(Long uId) {
         this.uId = uId;
+    }
+
+    public String getfYear() {
+        return fYear;
+    }
+
+    public void setfYear(String fYear) {
+        this.fYear = fYear == null ? null : fYear.trim();
+    }
+
+    public String getfMonth() {
+        return fMonth;
+    }
+
+    public void setfMonth(String fMonth) {
+        this.fMonth = fMonth == null ? null : fMonth.trim();
     }
 
     public String getfParam1() {

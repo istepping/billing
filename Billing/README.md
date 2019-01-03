@@ -1,6 +1,7 @@
 # 开发记录
 排名处理
 月特征值-> 排名特征
+品牌表
 * 消费行为几个特征值统计方法.
 * Django后台部署
 * 排行榜billing计算方法
@@ -51,3 +52,6 @@ D: 100- |D-0.2| * 100
 E: 100- |E-0.95|* 100
 F: 100- |F-0.9| * 100
 score=A+B+C+D+E+F
+# 问题记录
+1 Result Maps collection already contains value for com.billing.dao.FeatureMap
+* 因为mybatis自动生成会添加到mapper文件中, 删除Mapper文件中重复部分

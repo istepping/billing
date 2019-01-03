@@ -1,19 +1,14 @@
 package com.billing.service.impl;
 
 import com.billing.base.BaseService;
-import com.billing.dao.FeatureMapper;
-import com.billing.dao.PrankMapper;
-import com.billing.dao.UserInfoMapper;
-import com.billing.dao.UserMapper;
+import com.billing.dao.*;
 import com.billing.dto.MonthRankDto;
 import com.billing.dto.PersonRankDto;
 import com.billing.dto.PrankInfo;
-import com.billing.entity.Feature;
-import com.billing.entity.Prank;
-import com.billing.entity.User;
-import com.billing.entity.UserInfo;
+import com.billing.entity.*;
 import com.billing.enums.FailInfoEnum;
 import com.billing.service.ActionService;
+import com.billing.service.MonthFeatureService;
 import com.billing.service.PrankService;
 import com.billing.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +33,9 @@ public class PrankServiceImpl extends BaseService implements PrankService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private FeatureMapper featureMapper;
+    private MonthFeatureMapper monthFeatureMapper;
     @Autowired
-    private ActionService actionService;
+    private MonthFeatureService monthFeatureService;
 
     @Override
     public ServiceResult getPrank(String year, String month, Long uId) {
@@ -110,11 +105,6 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;//当前月
-        //预处理
-        ServiceResult result = preHandle(String.valueOf(year), String.valueOf(month - 1));
-        if (!result.isSuccess()) {
-            return fail(result.getInfo());
-        }
         //12个月前
         for (int i = 0; i < 12; i++) {
             if (month > 1) {
@@ -185,7 +175,7 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         int nowYear = now.get(Calendar.YEAR);
         int nowMonth = now.get(Calendar.MONTH) + 1;
         if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) >= nowMonth)) {
-            return fail("暂无改时间的排名信息");
+            return fail("暂无该月份的排名信息");
         }
         List<Prank> pranks = prankMapper.selectAllByMonth(year, month);
         if (pranks.size() > 5 && pranks.get(0).getrScore1() != null) {
@@ -203,10 +193,10 @@ public class PrankServiceImpl extends BaseService implements PrankService {
             prank.setrState(0);
             prank.setuId(uId);
             float score;
-            Feature feature = featureMapper.selectByUId(uId);
+            MonthFeature feature = monthFeatureMapper.selectByMonth(uId,year,month);
             if (feature == null) {
-                actionService.calculateFeature(uId);
-                feature = featureMapper.selectByUId(uId);
+                monthFeatureService.calculateMonthFeature(uId,year,month);
+                feature = monthFeatureMapper.selectByMonth(uId,year,month);
             }
             Float score1 = MathUtil.INSTANCE.getScore(feature.getfParam1(), 0.5f);
             Float score2 = MathUtil.INSTANCE.getScore(feature.getfParam2(), 0.2f);

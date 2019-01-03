@@ -16,5 +16,5 @@ public interface ActionService {
     BaseService.ServiceResult getActionWithAlgo(Long uId);
 
     //特征计算
-    void calculateFeature(Long uId);
+    void calculateFeature(Long uId,String year,String month);
 }
