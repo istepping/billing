@@ -17,21 +17,17 @@ import java.util.Map;
  * @apiNote 基本控制器
  */
 public abstract class BaseController {
-
-    public HttpServletRequest getRequest() {
+    protected HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
     }
-
     public HttpServletResponse getResponse() {
         return ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getResponse();
     }
-
     public Result successResponse() {
         return successResponse(null);
     }
-
     public Result successResponse(Map<String, Object> data) {
         Result result = new Result();
         result.setStatusCode(1);
@@ -46,7 +42,7 @@ public abstract class BaseController {
         result.setData(data);
         return result;
     }
-    public Result failInputResponse(){
+    protected Result failInputResponse(){
         Result result=new Result();
         result.setStatusCode(0);
         result.setMessage("输入不正确");
@@ -67,7 +63,6 @@ public abstract class BaseController {
     public ModelAndView createMav(String viewName, Map<String, ?> model) {
         return new ModelAndView(viewName, model);
     }
-
     @JsonInclude(Include.NON_NULL)
     public static class Result {
         private int statusCode;

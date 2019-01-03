@@ -32,28 +32,28 @@ public abstract class BaseService {
         serviceResult.setInfo(info);
         return serviceResult;
     }
-    public ServiceResult failInput(){
+    protected ServiceResult failInput(){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(false);
         serviceResult.setId(0);
         serviceResult.setInfo(FailInfoEnum.fail1.getInfo());
         return serviceResult;
     }
-    public ServiceResult failDataBase(){
+    protected ServiceResult failDataBase(){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(false);
         serviceResult.setId(0);
         serviceResult.setInfo(FailInfoEnum.fail2.getInfo());
         return serviceResult;
     }
-    public ServiceResult fail(){
+    protected ServiceResult fail(){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(false);
         serviceResult.setId(0);
         serviceResult.setInfo("fail");
         return serviceResult;
     }
-    public ServiceResult fail(String info){
+    protected ServiceResult fail(String info){
         ServiceResult serviceResult=new ServiceResult();
         serviceResult.setSuccess(false);
         serviceResult.setId(0);
