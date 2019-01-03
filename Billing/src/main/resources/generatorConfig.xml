@@ -70,16 +70,21 @@
 		<!--enableDeleteByExample="false" enableSelectByExample="false"-->
 		<!--selectByExampleQueryId="false">-->
 		<!--</table>-->
-		<table tableName="tb_feature" domainObjectName="Feature"
-			   enableCountByExample="false" enableUpdateByExample="false"
-			   enableDeleteByExample="false" enableSelectByExample="false"
-			   selectByExampleQueryId="false">
-		</table>
+		<!--<table tableName="tb_feature" domainObjectName="Feature"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false">-->
+		<!--</table>-->
 		<!--<table tableName="tb_month_feature" domainObjectName="MonthFeature"-->
 			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
 			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
 			   <!--selectByExampleQueryId="false">-->
 		<!--</table>-->
+		<table tableName="tb_brand" domainObjectName="Brand"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false">
+		</table>
 	</context>
 	<!-- mybatis-generator:generate -->
 </generatorConfiguration>

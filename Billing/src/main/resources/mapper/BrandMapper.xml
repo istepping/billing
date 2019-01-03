@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.BrandMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Brand" >
+    <id column="b_id" property="bId" jdbcType="BIGINT" />
+    <result column="b_name" property="bName" jdbcType="VARCHAR" />
+    <result column="g_type1" property="gType1" jdbcType="VARCHAR" />
+    <result column="g_type2" property="gType2" jdbcType="VARCHAR" />
+    <result column="g_type3" property="gType3" jdbcType="VARCHAR" />
+    <result column="g_type4" property="gType4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    b_id, b_name, g_type1, g_type2, g_type3, g_type4
+  </sql>
+  <select id="selectByType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where g_type1 = #{type1,jdbcType=VARCHAR} and g_type2 = #{type2,jdbcType=VARCHAR} and g_type3 = #{type3,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_brand
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_brand
+    where b_id = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_brand
+    where b_id = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Brand" >
+    insert into tb_brand (b_id, b_name, g_type1, 
+      g_type2, g_type3, g_type4
+      )
+    values (#{bId,jdbcType=BIGINT}, #{bName,jdbcType=VARCHAR}, #{gType1,jdbcType=VARCHAR}, 
+      #{gType2,jdbcType=VARCHAR}, #{gType3,jdbcType=VARCHAR}, #{gType4,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Brand" >
+    insert into tb_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        b_id,
+      </if>
+      <if test="bName != null" >
+        b_name,
+      </if>
+      <if test="gType1 != null" >
+        g_type1,
+      </if>
+      <if test="gType2 != null" >
+        g_type2,
+      </if>
+      <if test="gType3 != null" >
+        g_type3,
+      </if>
+      <if test="gType4 != null" >
+        g_type4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bName != null" >
+        #{bName,jdbcType=VARCHAR},
+      </if>
+      <if test="gType1 != null" >
+        #{gType1,jdbcType=VARCHAR},
+      </if>
+      <if test="gType2 != null" >
+        #{gType2,jdbcType=VARCHAR},
+      </if>
+      <if test="gType3 != null" >
+        #{gType3,jdbcType=VARCHAR},
+      </if>
+      <if test="gType4 != null" >
+        #{gType4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Brand" >
+    update tb_brand
+    <set >
+      <if test="bName != null" >
+        b_name = #{bName,jdbcType=VARCHAR},
+      </if>
+      <if test="gType1 != null" >
+        g_type1 = #{gType1,jdbcType=VARCHAR},
+      </if>
+      <if test="gType2 != null" >
+        g_type2 = #{gType2,jdbcType=VARCHAR},
+      </if>
+      <if test="gType3 != null" >
+        g_type3 = #{gType3,jdbcType=VARCHAR},
+      </if>
+      <if test="gType4 != null" >
+        g_type4 = #{gType4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Brand" >
+    update tb_brand
+    set b_name = #{bName,jdbcType=VARCHAR},
+      g_type1 = #{gType1,jdbcType=VARCHAR},
+      g_type2 = #{gType2,jdbcType=VARCHAR},
+      g_type3 = #{gType3,jdbcType=VARCHAR},
+      g_type4 = #{gType4,jdbcType=VARCHAR}
+    where b_id = #{bId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -6,7 +6,6 @@ import com.billing.entity.Bill;
 import com.billing.manager.UserMgr;
 import com.billing.service.BillService;
 import com.billing.utils.Auth;
-import com.billing.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.billing.utils.Assist.logger;
 import static com.billing.utils.Assist.print;
