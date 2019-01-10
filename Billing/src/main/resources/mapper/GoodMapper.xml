@@ -2,41 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.billing.dao.GoodMapper" >
   <resultMap id="BaseResultMap" type="com.billing.entity.Good" >
-    <id column="g_id" property="gId" jdbcType="INTEGER" />
+    <id column="g_id" property="gId" jdbcType="BIGINT" />
+    <result column="g_typeId" property="gTypeid" jdbcType="BIGINT" />
     <result column="g_type" property="gType" jdbcType="VARCHAR" />
+    <result column="g_type2Id" property="gType2id" jdbcType="BIGINT" />
+    <result column="g_type2" property="gType2" jdbcType="VARCHAR" />
+    <result column="g_type3Id" property="gType3id" jdbcType="BIGINT" />
+    <result column="g_type3" property="gType3" jdbcType="VARCHAR" />
+    <result column="g_type4Id" property="gType4id" jdbcType="BIGINT" />
+    <result column="g_type4" property="gType4" jdbcType="VARCHAR" />
     <result column="g_name" property="gName" jdbcType="VARCHAR" />
     <result column="g_detail" property="gDetail" jdbcType="VARCHAR" />
     <result column="g_sell_num" property="gSellNum" jdbcType="INTEGER" />
+    <result column="g_location" property="gLocation" jdbcType="VARCHAR" />
     <result column="g_aveprice" property="gAveprice" jdbcType="DECIMAL" />
     <result column="g_good_comment" property="gGoodComment" jdbcType="INTEGER" />
     <result column="g_sell_percent" property="gSellPercent" jdbcType="VARCHAR" />
     <result column="g_price_percent" property="gPricePercent" jdbcType="VARCHAR" />
     <result column="g_comment_percent" property="gCommentPercent" jdbcType="VARCHAR" />
     <result column="g_multiple_percent" property="gMultiplePercent" jdbcType="VARCHAR" />
+    <result column="g_extra" property="gExtra" jdbcType="VARCHAR" />
+    <result column="g_state" property="gState" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    g_id, g_type, g_name, g_detail, g_sell_num, g_aveprice, g_good_comment, g_sell_percent, 
-    g_price_percent, g_comment_percent, g_multiple_percent
+    g_id, g_typeId, g_type, g_type2Id, g_type2, g_type3Id, g_type3, g_type4Id, g_type4, 
+    g_name, g_detail, g_sell_num, g_location, g_aveprice, g_good_comment, g_sell_percent, 
+    g_price_percent, g_comment_percent, g_multiple_percent, g_extra, g_state
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByType4Id" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_good
+    where g_type4Id = #{gType4id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByType3Id" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_good
+    where g_type3Id = #{gType3id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByType2Id" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_good
+    where g_type2Id = #{gType2id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByTypeId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_good
+    where g_typeId = #{gTypeid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from tb_good
-    where g_id = #{gId,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tb_good
-    where g_id = #{gId,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.billing.entity.Good" >
-    insert into tb_good (g_id, g_type, g_name, 
-      g_detail, g_sell_num, g_aveprice, 
-      g_good_comment, g_sell_percent, g_price_percent, 
-      g_comment_percent, g_multiple_percent)
-    values (#{gId,jdbcType=INTEGER}, #{gType,jdbcType=VARCHAR}, #{gName,jdbcType=VARCHAR}, 
-      #{gDetail,jdbcType=VARCHAR}, #{gSellNum,jdbcType=INTEGER}, #{gAveprice,jdbcType=DECIMAL}, 
-      #{gGoodComment,jdbcType=INTEGER}, #{gSellPercent,jdbcType=VARCHAR}, #{gPricePercent,jdbcType=VARCHAR}, 
-      #{gCommentPercent,jdbcType=VARCHAR}, #{gMultiplePercent,jdbcType=VARCHAR})
+    insert into tb_good (g_id, g_typeId, g_type, 
+      g_type2Id, g_type2, g_type3Id, 
+      g_type3, g_type4Id, g_type4, 
+      g_name, g_detail, g_sell_num, 
+      g_location, g_aveprice, g_good_comment, 
+      g_sell_percent, g_price_percent, g_comment_percent, 
+      g_multiple_percent, g_extra, g_state
+      )
+    values (#{gId,jdbcType=BIGINT}, #{gTypeid,jdbcType=BIGINT}, #{gType,jdbcType=VARCHAR}, 
+      #{gType2id,jdbcType=BIGINT}, #{gType2,jdbcType=VARCHAR}, #{gType3id,jdbcType=BIGINT}, 
+      #{gType3,jdbcType=VARCHAR}, #{gType4id,jdbcType=BIGINT}, #{gType4,jdbcType=VARCHAR}, 
+      #{gName,jdbcType=VARCHAR}, #{gDetail,jdbcType=VARCHAR}, #{gSellNum,jdbcType=INTEGER}, 
+      #{gLocation,jdbcType=VARCHAR}, #{gAveprice,jdbcType=DECIMAL}, #{gGoodComment,jdbcType=INTEGER}, 
+      #{gSellPercent,jdbcType=VARCHAR}, #{gPricePercent,jdbcType=VARCHAR}, #{gCommentPercent,jdbcType=VARCHAR}, 
+      #{gMultiplePercent,jdbcType=VARCHAR}, #{gExtra,jdbcType=VARCHAR}, #{gState,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.billing.entity.Good" >
     insert into tb_good
@@ -44,8 +87,29 @@
       <if test="gId != null" >
         g_id,
       </if>
+      <if test="gTypeid != null" >
+        g_typeId,
+      </if>
       <if test="gType != null" >
         g_type,
+      </if>
+      <if test="gType2id != null" >
+        g_type2Id,
+      </if>
+      <if test="gType2 != null" >
+        g_type2,
+      </if>
+      <if test="gType3id != null" >
+        g_type3Id,
+      </if>
+      <if test="gType3 != null" >
+        g_type3,
+      </if>
+      <if test="gType4id != null" >
+        g_type4Id,
+      </if>
+      <if test="gType4 != null" >
+        g_type4,
       </if>
       <if test="gName != null" >
         g_name,
@@ -55,6 +119,9 @@
       </if>
       <if test="gSellNum != null" >
         g_sell_num,
+      </if>
+      <if test="gLocation != null" >
+        g_location,
       </if>
       <if test="gAveprice != null" >
         g_aveprice,
@@ -74,13 +141,40 @@
       <if test="gMultiplePercent != null" >
         g_multiple_percent,
       </if>
+      <if test="gExtra != null" >
+        g_extra,
+      </if>
+      <if test="gState != null" >
+        g_state,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="gId != null" >
-        #{gId,jdbcType=INTEGER},
+        #{gId,jdbcType=BIGINT},
+      </if>
+      <if test="gTypeid != null" >
+        #{gTypeid,jdbcType=BIGINT},
       </if>
       <if test="gType != null" >
         #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gType2id != null" >
+        #{gType2id,jdbcType=BIGINT},
+      </if>
+      <if test="gType2 != null" >
+        #{gType2,jdbcType=VARCHAR},
+      </if>
+      <if test="gType3id != null" >
+        #{gType3id,jdbcType=BIGINT},
+      </if>
+      <if test="gType3 != null" >
+        #{gType3,jdbcType=VARCHAR},
+      </if>
+      <if test="gType4id != null" >
+        #{gType4id,jdbcType=BIGINT},
+      </if>
+      <if test="gType4 != null" >
+        #{gType4,jdbcType=VARCHAR},
       </if>
       <if test="gName != null" >
         #{gName,jdbcType=VARCHAR},
@@ -90,6 +184,9 @@
       </if>
       <if test="gSellNum != null" >
         #{gSellNum,jdbcType=INTEGER},
+      </if>
+      <if test="gLocation != null" >
+        #{gLocation,jdbcType=VARCHAR},
       </if>
       <if test="gAveprice != null" >
         #{gAveprice,jdbcType=DECIMAL},
@@ -109,13 +206,40 @@
       <if test="gMultiplePercent != null" >
         #{gMultiplePercent,jdbcType=VARCHAR},
       </if>
+      <if test="gExtra != null" >
+        #{gExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="gState != null" >
+        #{gState,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Good" >
     update tb_good
     <set >
+      <if test="gTypeid != null" >
+        g_typeId = #{gTypeid,jdbcType=BIGINT},
+      </if>
       <if test="gType != null" >
         g_type = #{gType,jdbcType=VARCHAR},
+      </if>
+      <if test="gType2id != null" >
+        g_type2Id = #{gType2id,jdbcType=BIGINT},
+      </if>
+      <if test="gType2 != null" >
+        g_type2 = #{gType2,jdbcType=VARCHAR},
+      </if>
+      <if test="gType3id != null" >
+        g_type3Id = #{gType3id,jdbcType=BIGINT},
+      </if>
+      <if test="gType3 != null" >
+        g_type3 = #{gType3,jdbcType=VARCHAR},
+      </if>
+      <if test="gType4id != null" >
+        g_type4Id = #{gType4id,jdbcType=BIGINT},
+      </if>
+      <if test="gType4 != null" >
+        g_type4 = #{gType4,jdbcType=VARCHAR},
       </if>
       <if test="gName != null" >
         g_name = #{gName,jdbcType=VARCHAR},
@@ -125,6 +249,9 @@
       </if>
       <if test="gSellNum != null" >
         g_sell_num = #{gSellNum,jdbcType=INTEGER},
+      </if>
+      <if test="gLocation != null" >
+        g_location = #{gLocation,jdbcType=VARCHAR},
       </if>
       <if test="gAveprice != null" >
         g_aveprice = #{gAveprice,jdbcType=DECIMAL},
@@ -144,21 +271,37 @@
       <if test="gMultiplePercent != null" >
         g_multiple_percent = #{gMultiplePercent,jdbcType=VARCHAR},
       </if>
+      <if test="gExtra != null" >
+        g_extra = #{gExtra,jdbcType=VARCHAR},
+      </if>
+      <if test="gState != null" >
+        g_state = #{gState,jdbcType=INTEGER},
+      </if>
     </set>
-    where g_id = #{gId,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.billing.entity.Good" >
     update tb_good
-    set g_type = #{gType,jdbcType=VARCHAR},
+    set g_typeId = #{gTypeid,jdbcType=BIGINT},
+      g_type = #{gType,jdbcType=VARCHAR},
+      g_type2Id = #{gType2id,jdbcType=BIGINT},
+      g_type2 = #{gType2,jdbcType=VARCHAR},
+      g_type3Id = #{gType3id,jdbcType=BIGINT},
+      g_type3 = #{gType3,jdbcType=VARCHAR},
+      g_type4Id = #{gType4id,jdbcType=BIGINT},
+      g_type4 = #{gType4,jdbcType=VARCHAR},
       g_name = #{gName,jdbcType=VARCHAR},
       g_detail = #{gDetail,jdbcType=VARCHAR},
       g_sell_num = #{gSellNum,jdbcType=INTEGER},
+      g_location = #{gLocation,jdbcType=VARCHAR},
       g_aveprice = #{gAveprice,jdbcType=DECIMAL},
       g_good_comment = #{gGoodComment,jdbcType=INTEGER},
       g_sell_percent = #{gSellPercent,jdbcType=VARCHAR},
       g_price_percent = #{gPricePercent,jdbcType=VARCHAR},
       g_comment_percent = #{gCommentPercent,jdbcType=VARCHAR},
-      g_multiple_percent = #{gMultiplePercent,jdbcType=VARCHAR}
-    where g_id = #{gId,jdbcType=INTEGER}
+      g_multiple_percent = #{gMultiplePercent,jdbcType=VARCHAR},
+      g_extra = #{gExtra,jdbcType=VARCHAR},
+      g_state = #{gState,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billing.dao.FeatureMapper">
+  <resultMap id="BaseResultMap" type="com.billing.entity.Feature">
+    <id column="f_id" jdbcType="BIGINT" property="fId" />
+    <result column="u_id" jdbcType="BIGINT" property="uId" />
+    <result column="f_year" jdbcType="VARCHAR" property="fYear" />
+    <result column="f_month" jdbcType="VARCHAR" property="fMonth" />
+    <result column="f_param1" jdbcType="VARCHAR" property="fParam1" />
+    <result column="f_param2" jdbcType="VARCHAR" property="fParam2" />
+    <result column="f_param3" jdbcType="VARCHAR" property="fParam3" />
+    <result column="f_param4" jdbcType="VARCHAR" property="fParam4" />
+    <result column="f_param5" jdbcType="VARCHAR" property="fParam5" />
+    <result column="f_param6" jdbcType="VARCHAR" property="fParam6" />
+    <result column="f_param7" jdbcType="VARCHAR" property="fParam7" />
+    <result column="f_param8" jdbcType="VARCHAR" property="fParam8" />
+    <result column="f_param9" jdbcType="VARCHAR" property="fParam9" />
+    <result column="f_param10" jdbcType="VARCHAR" property="fParam10" />
+    <result column="f_param11" jdbcType="VARCHAR" property="fParam11" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    f_id, u_id, f_year, f_month, f_param1, f_param2, f_param3, f_param4, f_param5, f_param6, 
+    f_param7, f_param8, f_param9, f_param10, f_param11
+  </sql>
+  <select id="selectByMonth" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_feature
+    where u_id = #{uId,jdbcType=BIGINT} and f_year = #{fYear,jdbcType=VARCHAR} and f_month = #{fMonth,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_feature
+    where f_id = #{fId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_feature
+    where f_id = #{fId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Feature">
+    insert into tb_feature (f_id, u_id, f_year, 
+      f_month, f_param1, f_param2, 
+      f_param3, f_param4, f_param5, 
+      f_param6, f_param7, f_param8, 
+      f_param9, f_param10, f_param11
+      )
+    values (#{fId,jdbcType=BIGINT}, #{uId,jdbcType=BIGINT}, #{fYear,jdbcType=VARCHAR}, 
+      #{fMonth,jdbcType=VARCHAR}, #{fParam1,jdbcType=VARCHAR}, #{fParam2,jdbcType=VARCHAR}, 
+      #{fParam3,jdbcType=VARCHAR}, #{fParam4,jdbcType=VARCHAR}, #{fParam5,jdbcType=VARCHAR}, 
+      #{fParam6,jdbcType=VARCHAR}, #{fParam7,jdbcType=VARCHAR}, #{fParam8,jdbcType=VARCHAR}, 
+      #{fParam9,jdbcType=VARCHAR}, #{fParam10,jdbcType=VARCHAR}, #{fParam11,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Feature">
+    insert into tb_feature
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="fYear != null">
+        f_year,
+      </if>
+      <if test="fMonth != null">
+        f_month,
+      </if>
+      <if test="fParam1 != null">
+        f_param1,
+      </if>
+      <if test="fParam2 != null">
+        f_param2,
+      </if>
+      <if test="fParam3 != null">
+        f_param3,
+      </if>
+      <if test="fParam4 != null">
+        f_param4,
+      </if>
+      <if test="fParam5 != null">
+        f_param5,
+      </if>
+      <if test="fParam6 != null">
+        f_param6,
+      </if>
+      <if test="fParam7 != null">
+        f_param7,
+      </if>
+      <if test="fParam8 != null">
+        f_param8,
+      </if>
+      <if test="fParam9 != null">
+        f_param9,
+      </if>
+      <if test="fParam10 != null">
+        f_param10,
+      </if>
+      <if test="fParam11 != null">
+        f_param11,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fId != null">
+        #{fId,jdbcType=BIGINT},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="fYear != null">
+        #{fYear,jdbcType=VARCHAR},
+      </if>
+      <if test="fMonth != null">
+        #{fMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam1 != null">
+        #{fParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam2 != null">
+        #{fParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam3 != null">
+        #{fParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam4 != null">
+        #{fParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam5 != null">
+        #{fParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam6 != null">
+        #{fParam6,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam7 != null">
+        #{fParam7,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam8 != null">
+        #{fParam8,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam9 != null">
+        #{fParam9,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam10 != null">
+        #{fParam10,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam11 != null">
+        #{fParam11,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Feature">
+    update tb_feature
+    <set>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="fYear != null">
+        f_year = #{fYear,jdbcType=VARCHAR},
+      </if>
+      <if test="fMonth != null">
+        f_month = #{fMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam1 != null">
+        f_param1 = #{fParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam2 != null">
+        f_param2 = #{fParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam3 != null">
+        f_param3 = #{fParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam4 != null">
+        f_param4 = #{fParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam5 != null">
+        f_param5 = #{fParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam6 != null">
+        f_param6 = #{fParam6,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam7 != null">
+        f_param7 = #{fParam7,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam8 != null">
+        f_param8 = #{fParam8,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam9 != null">
+        f_param9 = #{fParam9,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam10 != null">
+        f_param10 = #{fParam10,jdbcType=VARCHAR},
+      </if>
+      <if test="fParam11 != null">
+        f_param11 = #{fParam11,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where f_id = #{fId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Feature">
+    update tb_feature
+    set u_id = #{uId,jdbcType=BIGINT},
+      f_year = #{fYear,jdbcType=VARCHAR},
+      f_month = #{fMonth,jdbcType=VARCHAR},
+      f_param1 = #{fParam1,jdbcType=VARCHAR},
+      f_param2 = #{fParam2,jdbcType=VARCHAR},
+      f_param3 = #{fParam3,jdbcType=VARCHAR},
+      f_param4 = #{fParam4,jdbcType=VARCHAR},
+      f_param5 = #{fParam5,jdbcType=VARCHAR},
+      f_param6 = #{fParam6,jdbcType=VARCHAR},
+      f_param7 = #{fParam7,jdbcType=VARCHAR},
+      f_param8 = #{fParam8,jdbcType=VARCHAR},
+      f_param9 = #{fParam9,jdbcType=VARCHAR},
+      f_param10 = #{fParam10,jdbcType=VARCHAR},
+      f_param11 = #{fParam11,jdbcType=VARCHAR}
+    where f_id = #{fId,jdbcType=BIGINT}
+  </update>
+</mapper>

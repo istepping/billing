@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.billing.utils.Assist.print;
 import static com.billing.utils.Config.AppID;
 import static com.billing.utils.Config.AppSecret;
@@ -25,6 +28,23 @@ import static com.billing.utils.Config.AppSecret;
 public class UserServiceImpl extends BaseService implements UserService {
     @Autowired
     UserMapper userMapper;
+
+    @Override
+    public ServiceResult addInfo(User user) {
+        Long uId=user.getuId();
+        User userDao=userMapper.selectByPrimaryKey(uId);
+        if(userDao!=null && userDao.getuId().equals(uId)){
+            int result=userMapper.updateByPrimaryKeySelective(user);
+            if(result>0){
+                return success();
+            }else{
+                return fail("数据库操作失败");
+            }
+        }else{
+            return fail("没有该用户");
+        }
+    }
+
     @Override
     public ServiceResult login(String code) {
         //开发人员验证
@@ -57,5 +77,13 @@ public class UserServiceImpl extends BaseService implements UserService {
         }
         String token=UserMgr.login(user.getuId(),session_key,openid);
         return success(token);
+    }
+
+    @Override
+    public ServiceResult getUserInfo(Long uId) {
+        User user=userMapper.selectByPrimaryKey(uId);
+        Map<String,Object> data=new HashMap<>();
+        data.put("user",user);
+        return success(data);
     }
 }

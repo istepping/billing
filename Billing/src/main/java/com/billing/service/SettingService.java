@@ -1,14 +1,20 @@
 package com.billing.service;
 
-import java.util.List;
-
+import com.billing.base.BaseService;
 import org.springframework.stereotype.Service;
 
-import com.billing.base.BaseService;
-import com.billing.entity.Bill;
-
+/**
+ * @author sunLei on 2018/11/22 16:08
+ * @version 1.0
+ * @apiNote
+ */
 @Service
-public interface SettingService{
-	 BaseService.ServiceResult updateSetting(Long uId,int openFamily);
-	 BaseService.ServiceResult addSetting(Bill bill);
+public interface SettingService {
+    //设置家校互通
+    BaseService.ServiceResult setOpenFamily(Long uId, Integer content);
+    BaseService.ServiceResult setBillPrivate(Long uId, Integer content);
+    //设置账号
+    BaseService.ServiceResult setParentId(Long uId, Integer flag, Long parentId);
+    //查询设置信息
+    BaseService.ServiceResult getSetting(Long uId);
 }

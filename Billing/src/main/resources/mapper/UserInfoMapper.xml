@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.UserInfo" >
+    <id column="u_id" property="uId" jdbcType="BIGINT" />
+    <result column="u_avatarUrl" property="uAvatarurl" jdbcType="VARCHAR" />
+    <result column="u_city" property="uCity" jdbcType="VARCHAR" />
+    <result column="u_country" property="uCountry" jdbcType="VARCHAR" />
+    <result column="u_gender" property="uGender" jdbcType="VARCHAR" />
+    <result column="u_language" property="uLanguage" jdbcType="VARCHAR" />
+    <result column="u_nickName" property="uNickname" jdbcType="VARCHAR" />
+    <result column="u_province" property="uProvince" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    u_id, u_avatarUrl, u_city, u_country, u_gender, u_language, u_nickName, u_province
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_userinfo
+    where u_id = #{uId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_userinfo
+    where u_id = #{uId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.UserInfo" >
+    insert into tb_userinfo (u_id, u_avatarUrl, u_city, 
+      u_country, u_gender, u_language, 
+      u_nickName, u_province)
+    values (#{uId,jdbcType=BIGINT}, #{uAvatarurl,jdbcType=VARCHAR}, #{uCity,jdbcType=VARCHAR}, 
+      #{uCountry,jdbcType=VARCHAR}, #{uGender,jdbcType=VARCHAR}, #{uLanguage,jdbcType=VARCHAR}, 
+      #{uNickname,jdbcType=VARCHAR}, #{uProvince,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.UserInfo" >
+    insert into tb_userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="uAvatarurl != null" >
+        u_avatarUrl,
+      </if>
+      <if test="uCity != null" >
+        u_city,
+      </if>
+      <if test="uCountry != null" >
+        u_country,
+      </if>
+      <if test="uGender != null" >
+        u_gender,
+      </if>
+      <if test="uLanguage != null" >
+        u_language,
+      </if>
+      <if test="uNickname != null" >
+        u_nickName,
+      </if>
+      <if test="uProvince != null" >
+        u_province,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        #{uId,jdbcType=BIGINT},
+      </if>
+      <if test="uAvatarurl != null" >
+        #{uAvatarurl,jdbcType=VARCHAR},
+      </if>
+      <if test="uCity != null" >
+        #{uCity,jdbcType=VARCHAR},
+      </if>
+      <if test="uCountry != null" >
+        #{uCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="uGender != null" >
+        #{uGender,jdbcType=VARCHAR},
+      </if>
+      <if test="uLanguage != null" >
+        #{uLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="uNickname != null" >
+        #{uNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="uProvince != null" >
+        #{uProvince,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.UserInfo" >
+    update tb_userinfo
+    <set >
+      <if test="uAvatarurl != null" >
+        u_avatarUrl = #{uAvatarurl,jdbcType=VARCHAR},
+      </if>
+      <if test="uCity != null" >
+        u_city = #{uCity,jdbcType=VARCHAR},
+      </if>
+      <if test="uCountry != null" >
+        u_country = #{uCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="uGender != null" >
+        u_gender = #{uGender,jdbcType=VARCHAR},
+      </if>
+      <if test="uLanguage != null" >
+        u_language = #{uLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="uNickname != null" >
+        u_nickName = #{uNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="uProvince != null" >
+        u_province = #{uProvince,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.UserInfo" >
+    update tb_userinfo
+    set u_avatarUrl = #{uAvatarurl,jdbcType=VARCHAR},
+      u_city = #{uCity,jdbcType=VARCHAR},
+      u_country = #{uCountry,jdbcType=VARCHAR},
+      u_gender = #{uGender,jdbcType=VARCHAR},
+      u_language = #{uLanguage,jdbcType=VARCHAR},
+      u_nickName = #{uNickname,jdbcType=VARCHAR},
+      u_province = #{uProvince,jdbcType=VARCHAR}
+    where u_id = #{uId,jdbcType=BIGINT}
+  </update>
+</mapper>
