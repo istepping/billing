@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.billing.dao.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.billing.entity.Recommend" >
+    <id column="r_id" property="rId" jdbcType="BIGINT" />
+    <result column="r_name" property="rName" jdbcType="VARCHAR" />
+    <result column="r_img" property="rImg" jdbcType="VARCHAR" />
+    <result column="r_description" property="rDescription" jdbcType="VARCHAR" />
+    <result column="r_price" property="rPrice" jdbcType="DECIMAL" />
+    <result column="r_buy_url" property="rBuyUrl" jdbcType="VARCHAR" />
+    <result column="r_reason" property="rReason" jdbcType="VARCHAR" />
+    <result column="r_type1" property="rType1" jdbcType="VARCHAR" />
+    <result column="r_type2" property="rType2" jdbcType="VARCHAR" />
+    <result column="r_state" property="rState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r_id, r_name, r_img, r_description, r_price, r_buy_url, r_reason, r_type1, r_type2, 
+    r_state
+  </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_recommend
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_recommend
+    where r_id = #{rId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_recommend
+    where r_id = #{rId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.billing.entity.Recommend" >
+    insert into tb_recommend (r_id, r_name, r_img, 
+      r_description, r_price, r_buy_url, 
+      r_reason, r_type1, r_type2, 
+      r_state)
+    values (#{rId,jdbcType=BIGINT}, #{rName,jdbcType=VARCHAR}, #{rImg,jdbcType=VARCHAR}, 
+      #{rDescription,jdbcType=VARCHAR}, #{rPrice,jdbcType=DECIMAL}, #{rBuyUrl,jdbcType=VARCHAR}, 
+      #{rReason,jdbcType=VARCHAR}, #{rType1,jdbcType=VARCHAR}, #{rType2,jdbcType=VARCHAR}, 
+      #{rState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.billing.entity.Recommend" >
+    insert into tb_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        r_id,
+      </if>
+      <if test="rName != null" >
+        r_name,
+      </if>
+      <if test="rImg != null" >
+        r_img,
+      </if>
+      <if test="rDescription != null" >
+        r_description,
+      </if>
+      <if test="rPrice != null" >
+        r_price,
+      </if>
+      <if test="rBuyUrl != null" >
+        r_buy_url,
+      </if>
+      <if test="rReason != null" >
+        r_reason,
+      </if>
+      <if test="rType1 != null" >
+        r_type1,
+      </if>
+      <if test="rType2 != null" >
+        r_type2,
+      </if>
+      <if test="rState != null" >
+        r_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        #{rId,jdbcType=BIGINT},
+      </if>
+      <if test="rName != null" >
+        #{rName,jdbcType=VARCHAR},
+      </if>
+      <if test="rImg != null" >
+        #{rImg,jdbcType=VARCHAR},
+      </if>
+      <if test="rDescription != null" >
+        #{rDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rPrice != null" >
+        #{rPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="rBuyUrl != null" >
+        #{rBuyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rReason != null" >
+        #{rReason,jdbcType=VARCHAR},
+      </if>
+      <if test="rType1 != null" >
+        #{rType1,jdbcType=VARCHAR},
+      </if>
+      <if test="rType2 != null" >
+        #{rType2,jdbcType=VARCHAR},
+      </if>
+      <if test="rState != null" >
+        #{rState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Recommend" >
+    update tb_recommend
+    <set >
+      <if test="rName != null" >
+        r_name = #{rName,jdbcType=VARCHAR},
+      </if>
+      <if test="rImg != null" >
+        r_img = #{rImg,jdbcType=VARCHAR},
+      </if>
+      <if test="rDescription != null" >
+        r_description = #{rDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rPrice != null" >
+        r_price = #{rPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="rBuyUrl != null" >
+        r_buy_url = #{rBuyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rReason != null" >
+        r_reason = #{rReason,jdbcType=VARCHAR},
+      </if>
+      <if test="rType1 != null" >
+        r_type1 = #{rType1,jdbcType=VARCHAR},
+      </if>
+      <if test="rType2 != null" >
+        r_type2 = #{rType2,jdbcType=VARCHAR},
+      </if>
+      <if test="rState != null" >
+        r_state = #{rState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where r_id = #{rId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.billing.entity.Recommend" >
+    update tb_recommend
+    set r_name = #{rName,jdbcType=VARCHAR},
+      r_img = #{rImg,jdbcType=VARCHAR},
+      r_description = #{rDescription,jdbcType=VARCHAR},
+      r_price = #{rPrice,jdbcType=DECIMAL},
+      r_buy_url = #{rBuyUrl,jdbcType=VARCHAR},
+      r_reason = #{rReason,jdbcType=VARCHAR},
+      r_type1 = #{rType1,jdbcType=VARCHAR},
+      r_type2 = #{rType2,jdbcType=VARCHAR},
+      r_state = #{rState,jdbcType=INTEGER}
+    where r_id = #{rId,jdbcType=BIGINT}
+  </update>
+</mapper>
