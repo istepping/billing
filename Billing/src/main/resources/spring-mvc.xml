@@ -19,6 +19,7 @@
     <context:annotation-config />
     <mvc:resources location="/WEB-INF/static/" mapping="/static/**"/>
     <mvc:resources location="/upload/" mapping="/upload/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
     <context:component-scan base-package="com.billing" />
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
@@ -28,6 +29,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/images/**"/>
             <bean class="com.billing.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

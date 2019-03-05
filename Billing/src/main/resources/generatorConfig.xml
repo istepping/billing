@@ -80,7 +80,12 @@
 			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
 			   <!--selectByExampleQueryId="false">-->
 		<!--</table>-->
-		<table tableName="tb_brand" domainObjectName="Brand"
+		<!--<table tableName="tb_brand" domainObjectName="Brand"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false">-->
+		<!--</table>-->
+		<table tableName="tb_recommend" domainObjectName="Recommend"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">
