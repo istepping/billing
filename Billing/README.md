@@ -56,3 +56,4 @@ score=A+B+C+D+E+F
 1 Result Maps collection already contains value for com.billing.dao.FeatureMap
 * 因为mybatis自动生成会添加到mapper文件中, 删除Mapper文件中重复部分
 2 图片服务器
+@time 2019.3.24 消费行为分析输出接口修改

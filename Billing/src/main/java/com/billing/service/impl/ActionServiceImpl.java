@@ -5,6 +5,7 @@ import com.billing.dao.ActionMapper;
 import com.billing.dao.BillMapper;
 import com.billing.dao.FeatureMapper;
 import com.billing.dao.GtypeMapper;
+import com.billing.dto.ActionDto;
 import com.billing.dto.JsonBean;
 import com.billing.dto.MonthExposeCountDto;
 import com.billing.dto.TypeCountDto;
@@ -15,6 +16,7 @@ import com.billing.entity.Gtype;
 import com.billing.service.ActionService;
 import com.billing.service.BillService;
 import com.billing.utils.API;
+import com.billing.utils.ContentUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -187,8 +189,18 @@ public class ActionServiceImpl extends BaseService implements ActionService {
         }else{
             actions=actionMapper.selectByUId(uId);
         }
+        //注入描述信息开始
+        ActionDto actionDto=new ActionDto();
+        actionDto.setActions(actions);
+        actionDto.setReasonInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaReason(),1));
+        actionDto.setImpluseInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaImpluse(),2));
+        actionDto.setRandomInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaRandom(),3));
+        actionDto.setHabitInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaHabit(),4));
+        actionDto.setEconomicInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaCollection(),5));
+        actionDto.setAttentionInfo(ContentUtil.INSTANCE.getActionInfo(actions.get(0).getaImagine(),6));
+        //注入描述信息结束
         Map<String, Object> data = new HashMap<>();
-        data.put("action", actions);
+        data.put("action", actionDto);
         return success(data);
     }
 }
