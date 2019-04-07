@@ -18,8 +18,19 @@ import java.util.List;
 public class RecommendServiceImpl extends BaseService implements RecommendService {
     @Autowired
     private RecommendMapper recommendMapper;
+    //用户个性化推荐
     @Override
-    public List<Recommend> getRecommend() {
+    public List<Recommend> getRecommend(Long uId) {
         return recommendMapper.selectList();
+    }
+
+    @Override
+    public List<Recommend> getRecommendWithType(Long uId, String type) {
+        return null;
+    }
+
+    @Override
+    public List<Recommend> searchByName(String name) {
+        return null;
     }
 }

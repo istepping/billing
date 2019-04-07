@@ -3,18 +3,19 @@
 <mapper namespace="com.billing.dao.RecommendMapper" >
   <resultMap id="BaseResultMap" type="com.billing.entity.Recommend" >
     <id column="r_id" property="rId" jdbcType="BIGINT" />
+    <result column="r_type" property="rType" jdbcType="VARCHAR" />
+    <result column="r_brand" property="rBrand" jdbcType="VARCHAR" />
     <result column="r_name" property="rName" jdbcType="VARCHAR" />
-    <result column="r_img" property="rImg" jdbcType="VARCHAR" />
-    <result column="r_description" property="rDescription" jdbcType="VARCHAR" />
+    <result column="r_like" property="rLike" jdbcType="VARCHAR" />
+    <result column="r_buyNum" property="rBuynum" jdbcType="INTEGER" />
     <result column="r_price" property="rPrice" jdbcType="DECIMAL" />
-    <result column="r_buy_url" property="rBuyUrl" jdbcType="VARCHAR" />
+    <result column="r_img" property="rImg" jdbcType="VARCHAR" />
+    <result column="r_desription" property="rDesription" jdbcType="VARCHAR" />
     <result column="r_reason" property="rReason" jdbcType="VARCHAR" />
-    <result column="r_type1" property="rType1" jdbcType="VARCHAR" />
-    <result column="r_type2" property="rType2" jdbcType="VARCHAR" />
     <result column="r_state" property="rState" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    r_id, r_name, r_img, r_description, r_price, r_buy_url, r_reason, r_type1, r_type2, 
+    r_id, r_type, r_brand, r_name, r_like, r_buyNum, r_price, r_img, r_desription, r_reason, 
     r_state
   </sql>
   <select id="selectList" resultMap="BaseResultMap">
@@ -33,14 +34,14 @@
     where r_id = #{rId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.billing.entity.Recommend" >
-    insert into tb_recommend (r_id, r_name, r_img, 
-      r_description, r_price, r_buy_url, 
-      r_reason, r_type1, r_type2, 
-      r_state)
-    values (#{rId,jdbcType=BIGINT}, #{rName,jdbcType=VARCHAR}, #{rImg,jdbcType=VARCHAR}, 
-      #{rDescription,jdbcType=VARCHAR}, #{rPrice,jdbcType=DECIMAL}, #{rBuyUrl,jdbcType=VARCHAR}, 
-      #{rReason,jdbcType=VARCHAR}, #{rType1,jdbcType=VARCHAR}, #{rType2,jdbcType=VARCHAR}, 
-      #{rState,jdbcType=INTEGER})
+    insert into tb_recommend (r_id, r_type, r_brand, 
+      r_name, r_like, r_buyNum, 
+      r_price, r_img, r_desription, 
+      r_reason, r_state)
+    values (#{rId,jdbcType=BIGINT}, #{rType,jdbcType=VARCHAR}, #{rBrand,jdbcType=VARCHAR}, 
+      #{rName,jdbcType=VARCHAR}, #{rLike,jdbcType=VARCHAR}, #{rBuynum,jdbcType=INTEGER}, 
+      #{rPrice,jdbcType=DECIMAL}, #{rImg,jdbcType=VARCHAR}, #{rDesription,jdbcType=VARCHAR}, 
+      #{rReason,jdbcType=VARCHAR}, #{rState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.billing.entity.Recommend" >
     insert into tb_recommend
@@ -48,29 +49,32 @@
       <if test="rId != null" >
         r_id,
       </if>
+      <if test="rType != null" >
+        r_type,
+      </if>
+      <if test="rBrand != null" >
+        r_brand,
+      </if>
       <if test="rName != null" >
         r_name,
       </if>
-      <if test="rImg != null" >
-        r_img,
+      <if test="rLike != null" >
+        r_like,
       </if>
-      <if test="rDescription != null" >
-        r_description,
+      <if test="rBuynum != null" >
+        r_buyNum,
       </if>
       <if test="rPrice != null" >
         r_price,
       </if>
-      <if test="rBuyUrl != null" >
-        r_buy_url,
+      <if test="rImg != null" >
+        r_img,
+      </if>
+      <if test="rDesription != null" >
+        r_desription,
       </if>
       <if test="rReason != null" >
         r_reason,
-      </if>
-      <if test="rType1 != null" >
-        r_type1,
-      </if>
-      <if test="rType2 != null" >
-        r_type2,
       </if>
       <if test="rState != null" >
         r_state,
@@ -80,29 +84,32 @@
       <if test="rId != null" >
         #{rId,jdbcType=BIGINT},
       </if>
+      <if test="rType != null" >
+        #{rType,jdbcType=VARCHAR},
+      </if>
+      <if test="rBrand != null" >
+        #{rBrand,jdbcType=VARCHAR},
+      </if>
       <if test="rName != null" >
         #{rName,jdbcType=VARCHAR},
       </if>
-      <if test="rImg != null" >
-        #{rImg,jdbcType=VARCHAR},
+      <if test="rLike != null" >
+        #{rLike,jdbcType=VARCHAR},
       </if>
-      <if test="rDescription != null" >
-        #{rDescription,jdbcType=VARCHAR},
+      <if test="rBuynum != null" >
+        #{rBuynum,jdbcType=INTEGER},
       </if>
       <if test="rPrice != null" >
         #{rPrice,jdbcType=DECIMAL},
       </if>
-      <if test="rBuyUrl != null" >
-        #{rBuyUrl,jdbcType=VARCHAR},
+      <if test="rImg != null" >
+        #{rImg,jdbcType=VARCHAR},
+      </if>
+      <if test="rDesription != null" >
+        #{rDesription,jdbcType=VARCHAR},
       </if>
       <if test="rReason != null" >
         #{rReason,jdbcType=VARCHAR},
-      </if>
-      <if test="rType1 != null" >
-        #{rType1,jdbcType=VARCHAR},
-      </if>
-      <if test="rType2 != null" >
-        #{rType2,jdbcType=VARCHAR},
       </if>
       <if test="rState != null" >
         #{rState,jdbcType=INTEGER},
@@ -112,29 +119,32 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.billing.entity.Recommend" >
     update tb_recommend
     <set >
+      <if test="rType != null" >
+        r_type = #{rType,jdbcType=VARCHAR},
+      </if>
+      <if test="rBrand != null" >
+        r_brand = #{rBrand,jdbcType=VARCHAR},
+      </if>
       <if test="rName != null" >
         r_name = #{rName,jdbcType=VARCHAR},
       </if>
-      <if test="rImg != null" >
-        r_img = #{rImg,jdbcType=VARCHAR},
+      <if test="rLike != null" >
+        r_like = #{rLike,jdbcType=VARCHAR},
       </if>
-      <if test="rDescription != null" >
-        r_description = #{rDescription,jdbcType=VARCHAR},
+      <if test="rBuynum != null" >
+        r_buyNum = #{rBuynum,jdbcType=INTEGER},
       </if>
       <if test="rPrice != null" >
         r_price = #{rPrice,jdbcType=DECIMAL},
       </if>
-      <if test="rBuyUrl != null" >
-        r_buy_url = #{rBuyUrl,jdbcType=VARCHAR},
+      <if test="rImg != null" >
+        r_img = #{rImg,jdbcType=VARCHAR},
+      </if>
+      <if test="rDesription != null" >
+        r_desription = #{rDesription,jdbcType=VARCHAR},
       </if>
       <if test="rReason != null" >
         r_reason = #{rReason,jdbcType=VARCHAR},
-      </if>
-      <if test="rType1 != null" >
-        r_type1 = #{rType1,jdbcType=VARCHAR},
-      </if>
-      <if test="rType2 != null" >
-        r_type2 = #{rType2,jdbcType=VARCHAR},
       </if>
       <if test="rState != null" >
         r_state = #{rState,jdbcType=INTEGER},
@@ -144,14 +154,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.billing.entity.Recommend" >
     update tb_recommend
-    set r_name = #{rName,jdbcType=VARCHAR},
-      r_img = #{rImg,jdbcType=VARCHAR},
-      r_description = #{rDescription,jdbcType=VARCHAR},
+    set r_type = #{rType,jdbcType=VARCHAR},
+      r_brand = #{rBrand,jdbcType=VARCHAR},
+      r_name = #{rName,jdbcType=VARCHAR},
+      r_like = #{rLike,jdbcType=VARCHAR},
+      r_buyNum = #{rBuynum,jdbcType=INTEGER},
       r_price = #{rPrice,jdbcType=DECIMAL},
-      r_buy_url = #{rBuyUrl,jdbcType=VARCHAR},
+      r_img = #{rImg,jdbcType=VARCHAR},
+      r_desription = #{rDesription,jdbcType=VARCHAR},
       r_reason = #{rReason,jdbcType=VARCHAR},
-      r_type1 = #{rType1,jdbcType=VARCHAR},
-      r_type2 = #{rType2,jdbcType=VARCHAR},
       r_state = #{rState,jdbcType=INTEGER}
     where r_id = #{rId,jdbcType=BIGINT}
   </update>
