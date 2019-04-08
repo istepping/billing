@@ -5,7 +5,6 @@ import com.billing.manager.UserMgr;
 import com.billing.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,9 +24,27 @@ public class RecommendController extends BaseController {
     @RequestMapping("getRecommend")
     @ResponseBody
     public Result getRecommend(){
+        Map<String,Object> data=new HashMap<>();
+        data.put("recommend",recommendService.getRecommend());
+        return successResponse(data);
+    }
+    //个性化推荐
+    @RequestMapping("getRecommendWithUId")
+    @ResponseBody
+    public Result getRecommendWithUId(){
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
         Map<String,Object> data=new HashMap<>();
-        data.put("recommend",recommendService.getRecommend(uId));
+        data.put("recommend",recommendService.getRecommendWithUId(uId));
+        return successResponse(data);
+    }
+    @RequestMapping("searchByName")
+    @ResponseBody
+    public Result searchByName(String name){
+        if(name==null){
+            return failInputResponse();
+        }
+        Map<String,Object> data=new HashMap<>();
+        data.put("recommend",recommendService.searchByName(name));
         return successResponse(data);
     }
 }

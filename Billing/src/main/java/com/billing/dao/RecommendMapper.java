@@ -1,10 +1,15 @@
 package com.billing.dao;
 
 import com.billing.entity.Recommend;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface RecommendMapper {
+    List<Recommend> selectByLikeName(@Param("rName")String rName);
+
+    List<Recommend> selectByTypeAndBrand(@Param("rType")String rType,@Param("rBrand")String rBrand);
+
     List<Recommend> selectList();
 
     int deleteByPrimaryKey(Long rId);

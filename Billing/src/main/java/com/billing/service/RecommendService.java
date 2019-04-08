@@ -12,10 +12,10 @@ import java.util.List;
  */
 @Service
 public interface RecommendService {
-    //获取全部信息
-    List<Recommend> getRecommend(Long uId);
-    //分类获取,个性化推荐
-    List<Recommend> getRecommendWithType(Long uId,String type);
+    //获取分类信息
+    List<Recommend> getRecommend();
+    //个性化推荐
+    List<Recommend> getRecommendWithUId(Long uId);
     //搜索功能
     List<Recommend> searchByName(String name);
 }

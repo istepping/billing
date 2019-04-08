@@ -18,6 +18,16 @@
     r_id, r_type, r_brand, r_name, r_like, r_buyNum, r_price, r_img, r_desription, r_reason, 
     r_state
   </sql>
+  <select id="selectByLikeName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_recommend where r_name like #{rName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByTypeAndBrand" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_recommend where r_type=#{rType,jdbcType=VARCHAR} and r_brand=#{rBrand,jdbcType=VARCHAR}
+  </select>
   <select id="selectList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
