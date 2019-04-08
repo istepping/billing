@@ -52,12 +52,8 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
         List<User> users=userMapper.selectAllUsers();
         Map<Double,Long> userMap=new HashMap<>();//记录对应用户
         List<Double> distances=new ArrayList<>();
-        for(User user:users){
-            Feature feature1=featureMapper.selectByMonth(user.getuId(),String.valueOf(year), String.valueOf(month));
-            if(feature1==null){
-                actionService.calculateFeature(user.getuId(),String.valueOf(year),String.valueOf(month));
-                feature1=featureMapper.selectByMonth(user.getuId(),String.valueOf(year),String.valueOf(month));
-            }
+        List<Feature> features=featureMapper.selectAllList(String.valueOf(year), String.valueOf(month));
+        for(Feature feature1:features){
             //计算近似度
             print("计算近似度");
             double sub1=Math.pow(Double.valueOf(feature.getfParam1())-Double.valueOf(feature1.getfParam1()),2.0);
@@ -70,7 +66,7 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
             print(distance);
             distances.add(distance);
             //允许覆盖:同一距离选取任何一个用户ID都可以,distance可以重复
-            userMap.put(distance,user.getuId());
+            userMap.put(distance,feature1.getuId());
         }
         //升序排序
         Collections.sort(distances);
@@ -81,11 +77,19 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
             Long userId=userMap.get(distances.get(i));
             List<Bill> bills=billMapper.selectByUId(userId);
             for(Bill bill:bills){
-                if(bill.getbType().equals("支出")){
+                if(bill.getbType().equals("支出") && bill.getgType4()!=null && bill.getgType()!=null){
                     String type=bill.getgType();
                     String brand=bill.getgType4();
                     List<Recommend> recommends1=recommendMapper.selectByTypeAndBrand(type,brand);
                     recommends.addAll(recommends1);
+                }
+            }
+        }
+        if(recommends.size()<=10){
+            List<Recommend> recommends1=recommendMapper.selectList();
+            for(Recommend recommend:recommends1){
+                if(Double.valueOf(recommend.getrLike())>0.9){
+                    recommends.add(recommend);
                 }
             }
         }

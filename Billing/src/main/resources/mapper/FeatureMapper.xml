@@ -22,6 +22,12 @@
     f_id, u_id, f_year, f_month, f_param1, f_param2, f_param3, f_param4, f_param5, f_param6, 
     f_param7, f_param8, f_param9, f_param10, f_param11
   </sql>
+  <select id="selectAllList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_feature
+    where f_year = #{fYear,jdbcType=VARCHAR} and f_month = #{fMonth,jdbcType=VARCHAR}
+  </select>
   <select id="selectByMonth" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

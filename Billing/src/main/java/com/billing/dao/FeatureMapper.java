@@ -3,7 +3,11 @@ package com.billing.dao;
 import com.billing.entity.Feature;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface FeatureMapper {
+    List<Feature> selectAllList(@Param("fYear") String fYear,@Param("fMonth") String fMonth);
+
     Feature selectByMonth(@Param("uId") Long uId,@Param("fYear") String fYear,@Param("fMonth") String fMonth);
 
     int deleteByPrimaryKey(Long fId);
