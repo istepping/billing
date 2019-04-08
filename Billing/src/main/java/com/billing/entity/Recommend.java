@@ -5,21 +5,23 @@ import java.math.BigDecimal;
 public class Recommend {
     private Long rId;
 
+    private String rType;
+
+    private String rBrand;
+
     private String rName;
 
-    private String rImg;
+    private String rLike;
 
-    private String rDescription;
+    private Integer rBuynum;
 
     private BigDecimal rPrice;
 
-    private String rBuyUrl;
+    private String rImg;
+
+    private String rDesription;
 
     private String rReason;
-
-    private String rType1;
-
-    private String rType2;
 
     private Integer rState;
 
@@ -31,6 +33,22 @@ public class Recommend {
         this.rId = rId;
     }
 
+    public String getrType() {
+        return rType;
+    }
+
+    public void setrType(String rType) {
+        this.rType = rType == null ? null : rType.trim();
+    }
+
+    public String getrBrand() {
+        return rBrand;
+    }
+
+    public void setrBrand(String rBrand) {
+        this.rBrand = rBrand == null ? null : rBrand.trim();
+    }
+
     public String getrName() {
         return rName;
     }
@@ -39,20 +57,20 @@ public class Recommend {
         this.rName = rName == null ? null : rName.trim();
     }
 
-    public String getrImg() {
-        return rImg;
+    public String getrLike() {
+        return rLike;
     }
 
-    public void setrImg(String rImg) {
-        this.rImg = rImg == null ? null : rImg.trim();
+    public void setrLike(String rLike) {
+        this.rLike = rLike == null ? null : rLike.trim();
     }
 
-    public String getrDescription() {
-        return rDescription;
+    public Integer getrBuynum() {
+        return rBuynum;
     }
 
-    public void setrDescription(String rDescription) {
-        this.rDescription = rDescription == null ? null : rDescription.trim();
+    public void setrBuynum(Integer rBuynum) {
+        this.rBuynum = rBuynum;
     }
 
     public BigDecimal getrPrice() {
@@ -63,12 +81,20 @@ public class Recommend {
         this.rPrice = rPrice;
     }
 
-    public String getrBuyUrl() {
-        return rBuyUrl;
+    public String getrImg() {
+        return rImg;
     }
 
-    public void setrBuyUrl(String rBuyUrl) {
-        this.rBuyUrl = rBuyUrl == null ? null : rBuyUrl.trim();
+    public void setrImg(String rImg) {
+        this.rImg = rImg == null ? null : rImg.trim();
+    }
+
+    public String getrDesription() {
+        return rDesription;
+    }
+
+    public void setrDesription(String rDesription) {
+        this.rDesription = rDesription == null ? null : rDesription.trim();
     }
 
     public String getrReason() {
@@ -77,22 +103,6 @@ public class Recommend {
 
     public void setrReason(String rReason) {
         this.rReason = rReason == null ? null : rReason.trim();
-    }
-
-    public String getrType1() {
-        return rType1;
-    }
-
-    public void setrType1(String rType1) {
-        this.rType1 = rType1 == null ? null : rType1.trim();
-    }
-
-    public String getrType2() {
-        return rType2;
-    }
-
-    public void setrType2(String rType2) {
-        this.rType2 = rType2 == null ? null : rType2.trim();
     }
 
     public Integer getrState() {

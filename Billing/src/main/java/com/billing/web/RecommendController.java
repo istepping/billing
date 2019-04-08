@@ -1,6 +1,7 @@
 package com.billing.web;
 
 import com.billing.base.BaseController;
+import com.billing.manager.UserMgr;
 import com.billing.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,9 @@ public class RecommendController extends BaseController {
     @RequestMapping("getRecommend")
     @ResponseBody
     public Result getRecommend(){
+        Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
         Map<String,Object> data=new HashMap<>();
-        data.put("recommend",recommendService.getRecommend());
+        data.put("recommend",recommendService.getRecommend(uId));
         return successResponse(data);
     }
 }
