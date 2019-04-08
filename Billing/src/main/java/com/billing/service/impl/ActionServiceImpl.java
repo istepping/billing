@@ -104,6 +104,9 @@ public class ActionServiceImpl extends BaseService implements ActionService {
         //比零系数
         BigDecimal temp = R.subtract(L);
         print(sumMoney);
+        if(sumMoney.equals(new BigDecimal(0))){
+            sumMoney=sumMoney.add(new BigDecimal(100));//防止除0
+        }
         BigDecimal M = temp.abs().divide(sumMoney, 2, RoundingMode.HALF_UP);
         BigDecimal param1 = M.compareTo(new BigDecimal("0.5")) < 0 ? M.add(new BigDecimal("0.5")) : M.subtract(new BigDecimal("0.5"));
         //大额商品占比
@@ -119,7 +122,15 @@ public class ActionServiceImpl extends BaseService implements ActionService {
         for (Integer item : counts) {
             sum += Double.valueOf(item);
         }
-        Double D = sum / counts.size();//D
+        double D=0.0;
+        if(counts.size()>0){
+            D = sum / counts.size();//D
+        }
+        if(C==0.0){
+            C=100.0;
+        }
+        print(D);
+        print(C);
         BigDecimal param3 = new BigDecimal(D / C);
         param3 = param3.setScale(2, RoundingMode.HALF_UP);
         //波动率
