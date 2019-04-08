@@ -55,6 +55,10 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
         List<Feature> features=featureMapper.selectAllList(String.valueOf(year), String.valueOf(month));
         for(Feature feature1:features){
             //计算近似度
+            if(feature1.getuId().equals(uId)){
+                //过滤本人信息
+                continue;
+            }
             print("计算近似度");
             double sub1=Math.pow(Double.valueOf(feature.getfParam1())-Double.valueOf(feature1.getfParam1()),2.0);
             double sub2=Math.pow(Double.valueOf(feature.getfParam2())-Double.valueOf(feature1.getfParam2()),2.0);
@@ -89,7 +93,9 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
             List<Recommend> recommends1=recommendMapper.selectList();
             for(Recommend recommend:recommends1){
                 if(Double.valueOf(recommend.getrLike())>0.9){
-                    recommends.add(recommend);
+                    if(!recommends.contains(recommend)){
+                        recommends.add(recommend);//不重复加入
+                    }
                 }
             }
         }

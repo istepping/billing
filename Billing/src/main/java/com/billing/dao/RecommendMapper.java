@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface RecommendMapper {
+    Recommend selectByTypeAndNameAndBrand(@Param("rType")String rType,@Param("rName")String name,@Param("rBrand")String rBrand);
+
     List<Recommend> selectByLikeName(@Param("rName")String rName);
 
     List<Recommend> selectByTypeAndBrand(@Param("rType")String rType,@Param("rBrand")String rBrand);

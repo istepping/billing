@@ -1,25 +1,22 @@
 package com.billing.service.impl;
 
 import com.billing.base.BaseService;
-import com.billing.dao.BillMapper;
-import com.billing.dao.GtypeMapper;
-import com.billing.dao.SettingMapper;
-import com.billing.dao.UserMapper;
+import com.billing.dao.*;
 import com.billing.dto.DayExposeCountDto;
 import com.billing.dto.ExposeCountDto;
 import com.billing.dto.MonthExposeCountDto;
-import com.billing.entity.Bill;
-import com.billing.entity.Gtype;
-import com.billing.entity.Setting;
-import com.billing.entity.User;
+import com.billing.entity.*;
 import com.billing.enums.FailInfoEnum;
 import com.billing.manager.UserMgr;
 import com.billing.service.BillService;
+import com.billing.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.*;
 
@@ -42,7 +39,8 @@ public class BillServiceImpl extends BaseService implements BillService {
     GtypeMapper gtypeMapper;
     @Autowired
     SettingMapper settingMapper;
-
+    @Autowired
+    RecommendMapper recommendMapper;
     @Override
     public ServiceResult updateBillByBId(Bill bill) {
         int result=billMapper.updateByPrimaryKeySelective(bill);
@@ -83,6 +81,17 @@ public class BillServiceImpl extends BaseService implements BillService {
     @Override
     public ServiceResult addBillByUId(Bill bill) {
         if (billMapper.insert(bill) > 0) {
+            //跟新数据操作
+            if(bill.getgType()!=null && bill.getgType2()!=null && bill.getgType4()!=null){
+                Recommend recommend=recommendMapper.selectByTypeAndNameAndBrand(bill.getgType(),bill.getgType2(),bill.getgType4());
+                //4id作为like
+                if(bill.getgType4id()==null || bill.getgType4id()>=4){
+                    recommend.setrLike(String.valueOf((Double.valueOf(recommend.getrLike())*recommend.getrBuynum()+1)/(recommend.getrBuynum()+1)).substring(0,4));
+                    recommend.setrPrice(recommend.getrPrice().multiply(new BigDecimal(recommend.getrBuynum())).add(bill.getMoney()).divide(new BigDecimal(recommend.getrBuynum()+1),2, RoundingMode.HALF_UP));
+                }
+                recommend.setrBuynum(recommend.getrBuynum()+1);
+                recommendMapper.updateByPrimaryKeySelective(recommend);
+            }
             return success();
         } else {
             return fail();
