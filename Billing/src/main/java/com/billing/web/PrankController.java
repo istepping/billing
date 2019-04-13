@@ -19,6 +19,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PrankController extends BaseController {
     @Autowired
     PrankService prankService;
+    //按月获取排名页面信息
+    @RequestMapping("/getPrankByMonth")
+    @ResponseBody
+    public Result getPrankByMonth(String year,String month){
+        Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
+        BaseService.ServiceResult result=prankService.getPrankByMonth(year,month,uId);
+        if(result.isSuccess()){
+            return successResponse(result.getData());
+        }else{
+            return failResponse(result.getInfo());
+        }
+    }
     //获取个人排名
     @RequestMapping("/getPrank")
     @ResponseBody

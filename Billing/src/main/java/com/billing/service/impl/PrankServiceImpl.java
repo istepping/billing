@@ -36,6 +36,46 @@ public class PrankServiceImpl extends BaseService implements PrankService {
     private MonthFeatureMapper monthFeatureMapper;
     @Autowired
     private MonthFeatureService monthFeatureService;
+    @Autowired
+    BillMapper billMapper;
+
+    @Override
+    public ServiceResult getPrankByMonth(String year, String month, Long uId) {
+        if (!isNumber(year) || !isNumber(month)) {
+            return fail(FailInfoEnum.fail1.getInfo());
+        }
+        //预处理
+        ServiceResult result = preHandle(year, month);
+        if (!result.isSuccess()) {
+            return fail(result.getInfo());
+        }
+        List<Prank> pranks = prankMapper.selectPre10(year, month);
+        List<PersonRankDto> personRankDtos = new ArrayList<>();
+        for (int i = 0; i < pranks.size(); i++) {
+            Prank prank = pranks.get(i);
+            PersonRankDto personRankDto = new PersonRankDto();
+            personRankDto.setRank(i + 1);
+            UserInfo userInfo = userInfoMapper.selectByPrimaryKey(prank.getuId());
+            if (userInfo == null) {
+                personRankDto.setNickName("暂无");
+                personRankDto.setAvatarUrl("https://upload-images.jianshu.io/upload_images/7795819-879486be51c41aa7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
+            } else {
+                personRankDto.setNickName(userInfo.getuNickname());
+                personRankDto.setAvatarUrl(userInfo.getuAvatarurl());
+            }
+            if (prank.getrScore() != null) {
+                personRankDto.setScore(String.valueOf(prank.getrScore()));
+            }
+            personRankDtos.add(personRankDto);
+        }
+        List<Prank> prank = prankMapper.selectByMonth(year, month, uId);
+        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(uId);
+        Map<String, Object> data = new HashMap<>();
+        data.put("pranks", personRankDtos);
+        data.put("prank",prank);
+        data.put("userInfo",userInfo);
+        return success(data);
+    }
 
     @Override
     public ServiceResult getPrank(String year, String month, Long uId) {
@@ -174,7 +214,7 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         Calendar now = Calendar.getInstance();
         int nowYear = now.get(Calendar.YEAR);
         int nowMonth = now.get(Calendar.MONTH) + 1;
-        if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) >= nowMonth)) {
+        if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) > nowMonth)) {
             return fail("暂无该月份的排名信息");
         }
         List<Prank> pranks = prankMapper.selectAllByMonth(year, month);
@@ -185,6 +225,17 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         //统计排名信息[计算评分][计算排名]
         List<User> users = userMapper.selectAllUsers();
         for (User user : users) {
+            //过滤无用数据
+            String time;
+            if(month.length()==1){
+                time=year + "-0" + month + "%";
+            }else{
+                time=year + "-" + month + "%";
+            }
+            List<Bill> bills=billMapper.selectByMonth(user.getuId(),time);
+            if(bills==null || bills.size()<3){
+                continue;
+            }
             Long uId = user.getuId();
             Prank prank = new Prank();
             prank.setrYear(year);
@@ -193,6 +244,7 @@ public class PrankServiceImpl extends BaseService implements PrankService {
             prank.setrState(0);
             prank.setuId(uId);
             float score;
+            print("用户"+user.getuId());
             MonthFeature feature = monthFeatureMapper.selectByMonth(uId,year,month);
             if (feature == null) {
                 monthFeatureService.calculateMonthFeature(uId,year,month);

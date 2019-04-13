@@ -39,7 +39,13 @@ public class MonthFeatureServiceImpl extends BaseService implements MonthFeature
     private BillService billService;
     @Override
     public void calculateMonthFeature(Long uId, String year, String month) {
-        String pattern = year + "-" + month + "%";
+        String pattern;
+        //不同月份结构适应
+        if(month.length()==1){
+            pattern=year + "-0" + month + "%";
+        }else{
+            pattern=year + "-" + month + "%";
+        }
         List<Bill> bills = billMapper.selectByMonth(uId, pattern);
         BigDecimal moneyThan = new BigDecimal(0);//P
         BigDecimal sumMoney = new BigDecimal(0);//S

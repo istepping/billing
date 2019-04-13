@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PrankService {
     //查询通过年月
+    BaseService.ServiceResult getPrankByMonth(String year, String month, Long uId);
+
+    //查询通过年月
     BaseService.ServiceResult getPrank(String year, String month, Long uId);
 
     //获取前10名
