@@ -55,6 +55,7 @@ public class PrankServiceImpl extends BaseService implements PrankService {
             Prank prank = pranks.get(i);
             PersonRankDto personRankDto = new PersonRankDto();
             personRankDto.setRank(i + 1);
+            personRankDto.setPrank(prank);
             UserInfo userInfo = userInfoMapper.selectByPrimaryKey(prank.getuId());
             if (userInfo == null) {
                 personRankDto.setNickName("暂无");

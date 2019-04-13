@@ -1,5 +1,7 @@
 package com.billing.dto;
 
+import com.billing.entity.Prank;
+
 /**
  * @author sunLei on 2018/11/29 18:40
  * @version 1.0
@@ -10,8 +12,16 @@ public class PersonRankDto {
     private String avatarUrl;//头像
     private String nickName;//呢称
     private String score;//评分
-
+    private Prank prank;
     public PersonRankDto() {
+    }
+
+    public PersonRankDto(Integer rank, String avatarUrl, String nickName, String score, Prank prank) {
+        this.rank = rank;
+        this.avatarUrl = avatarUrl;
+        this.nickName = nickName;
+        this.score = score;
+        this.prank = prank;
     }
 
     public PersonRankDto(Integer rank, String avatarUrl, String nickName, String score) {
@@ -19,6 +29,14 @@ public class PersonRankDto {
         this.avatarUrl = avatarUrl;
         this.nickName = nickName;
         this.score = score;
+    }
+
+    public Prank getPrank() {
+        return prank;
+    }
+
+    public void setPrank(Prank prank) {
+        this.prank = prank;
     }
 
     public Integer getRank() {
