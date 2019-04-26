@@ -187,7 +187,7 @@ public class BillController extends BaseController {
     @ResponseBody
     public Result addBillWithTypes(String saveTime, String bType, String money, String gType, String gType2,   String gType3, String gType4, String gDetail, String location, String extraInfo) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Integer.parseInt(money)), gType, gType2, gType3, gType4, gDetail, location, extraInfo);
+        Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Double.parseDouble(money)), gType, gType2, gType3, gType4, gDetail, location, extraInfo);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (saveTime == null) {
             Date time = new Date();

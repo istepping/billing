@@ -85,12 +85,12 @@ public class BillServiceImpl extends BaseService implements BillService {
             if(bill.getgType()!=null && bill.getgType2()!=null && bill.getgType4()!=null){
                 Recommend recommend=recommendMapper.selectByTypeAndNameAndBrand(bill.getgType(),bill.getgType2(),bill.getgType4());
                 //4id作为like
-                if(bill.getgType4id()==null || bill.getgType4id()>=4){
+                if(recommend!=null && (bill.getgType4id()==null || bill.getgType4id()>=4)){
                     recommend.setrLike(String.valueOf((Double.valueOf(recommend.getrLike())*recommend.getrBuynum()+1)/(recommend.getrBuynum()+1)).substring(0,4));
                     recommend.setrPrice(recommend.getrPrice().multiply(new BigDecimal(recommend.getrBuynum())).add(bill.getMoney()).divide(new BigDecimal(recommend.getrBuynum()+1),2, RoundingMode.HALF_UP));
+                    recommend.setrBuynum(recommend.getrBuynum()+1);
+                    recommendMapper.updateByPrimaryKeySelective(recommend);
                 }
-                recommend.setrBuynum(recommend.getrBuynum()+1);
-                recommendMapper.updateByPrimaryKeySelective(recommend);
             }
             return success();
         } else {
