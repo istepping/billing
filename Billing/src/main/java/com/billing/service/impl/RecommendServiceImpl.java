@@ -77,6 +77,9 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
         //构建推荐内容
         List<Recommend> recommends=new ArrayList<>();
         for(int i=0;i<3;i++){
+            if(i>=distances.size()){
+                continue;
+            }
             //前3个最相似用户用户
             Long userId=userMap.get(distances.get(i));
             List<Bill> bills=billMapper.selectByUId(userId);
