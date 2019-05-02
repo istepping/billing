@@ -10,6 +10,7 @@ import com.billing.enums.FailInfoEnum;
 import com.billing.service.ActionService;
 import com.billing.service.MonthFeatureService;
 import com.billing.service.PrankService;
+import com.billing.utils.Cache;
 import com.billing.utils.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,34 +45,41 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         if (!isNumber(year) || !isNumber(month)) {
             return fail(FailInfoEnum.fail1.getInfo());
         }
-        //预处理
-        ServiceResult result = preHandle(year, month);
-        if (!result.isSuccess()) {
-            return fail(result.getInfo());
-        }
-        List<Prank> pranks = prankMapper.selectPre10(year, month);
-        List<PersonRankDto> personRankDtos = new ArrayList<>();
-        for (int i = 0; i < pranks.size(); i++) {
-            Prank prank = pranks.get(i);
-            PersonRankDto personRankDto = new PersonRankDto();
-            personRankDto.setRank(i + 1);
-            personRankDto.setPrank(prank);
-            UserInfo userInfo = userInfoMapper.selectByPrimaryKey(prank.getuId());
-            if (userInfo == null) {
-                personRankDto.setNickName("暂无");
-                personRankDto.setAvatarUrl("https://upload-images.jianshu.io/upload_images/7795819-879486be51c41aa7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
-            } else {
-                personRankDto.setNickName(userInfo.getuNickname());
-                personRankDto.setAvatarUrl(userInfo.getuAvatarurl());
+        Map<String, Object> data = new HashMap<>();
+        //查询缓存
+        List<PersonRankDto> personRankDtos=Cache.personRankDtoMap.get(year+"-"+month);
+        if(personRankDtos==null){
+            //缓存未命中
+            personRankDtos=new ArrayList<>();
+            //预处理
+            ServiceResult result = preHandle(year, month);
+            if (!result.isSuccess()) {
+                return fail(result.getInfo());
             }
-            if (prank.getrScore() != null) {
-                personRankDto.setScore(String.valueOf(prank.getrScore()));
+            List<Prank> pranks = prankMapper.selectPre10(year, month);
+            for (int i = 0; i < pranks.size(); i++) {
+                Prank prank = pranks.get(i);
+                PersonRankDto personRankDto = new PersonRankDto();
+                personRankDto.setRank(i + 1);
+                personRankDto.setPrank(prank);
+                UserInfo userInfo = userInfoMapper.selectByPrimaryKey(prank.getuId());
+                if (userInfo == null) {
+                    personRankDto.setNickName("暂无");
+                    personRankDto.setAvatarUrl("https://upload-images.jianshu.io/upload_images/7795819-879486be51c41aa7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
+                } else {
+                    personRankDto.setNickName(userInfo.getuNickname());
+                    personRankDto.setAvatarUrl(userInfo.getuAvatarurl());
+                }
+                if (prank.getrScore() != null) {
+                    personRankDto.setScore(String.valueOf(prank.getrScore()));
+                }
+                personRankDtos.add(personRankDto);
             }
-            personRankDtos.add(personRankDto);
+            //加入缓存
+            Cache.personRankDtoMap.put(year+"-"+month,personRankDtos);
         }
         List<Prank> prank = prankMapper.selectByMonth(year, month, uId);
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(uId);
-        Map<String, Object> data = new HashMap<>();
         data.put("pranks", personRankDtos);
         data.put("prank",prank);
         data.put("userInfo",userInfo);
@@ -215,11 +223,11 @@ public class PrankServiceImpl extends BaseService implements PrankService {
         Calendar now = Calendar.getInstance();
         int nowYear = now.get(Calendar.YEAR);
         int nowMonth = now.get(Calendar.MONTH) + 1;
-        if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) > nowMonth)) {
+        if (Integer.parseInt(year) > nowYear || (Integer.parseInt(year) == nowYear && Integer.parseInt(month) >= nowMonth)) {
             return fail("暂无该月份的排名信息");
         }
         List<Prank> pranks = prankMapper.selectAllByMonth(year, month);
-        if (pranks.size() > 5 && pranks.get(0).getrScore1() != null) {
+        if (pranks.size() > 1 && pranks.get(0).getrScore1() != null) {
             //5，容错数
             return success("已有排名信息");
         }
