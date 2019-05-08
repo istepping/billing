@@ -85,6 +85,7 @@ public class Bill {
         this.state = state;
     }
 
+
     public Long getbId() {
         return bId;
     }

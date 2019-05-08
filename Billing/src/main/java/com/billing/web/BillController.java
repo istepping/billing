@@ -185,9 +185,21 @@ public class BillController extends BaseController {
     //添加账单(含详细类型)
     @RequestMapping("/addBillWithTypes")
     @ResponseBody
-    public Result addBillWithTypes(String saveTime, String bType, String money, String gType, String gType2,   String gType3, String gType4, String gDetail, String location, String extraInfo) {
+    public Result addBillWithTypes(String gTypeId,String gType2Id,String gType3Id,String gType4Id,String saveTime, String bType, String money, String gType, String gType2,   String gType3, String gType4, String gDetail, String location, String extraInfo) {
         Long uId = UserMgr.getUId(getRequest().getHeader("authorization"));
-        Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Double.parseDouble(money)), gType, gType2, gType3, gType4, gDetail, location, extraInfo);
+        Bill bill = new Bill(uId, new Date(), bType, BigDecimal.valueOf(Double.parseDouble(money)),gType, gType2,gType3,gType4, gDetail, location, extraInfo);
+        if(gTypeId!=null){
+            bill.setgType4id(Long.valueOf(gTypeId));
+        }
+        if(gType2Id!=null){
+            bill.setgType4id(Long.valueOf(gType2Id));
+        }
+        if(gType3Id!=null){
+            bill.setgType4id(Long.valueOf(gType3Id));
+        }
+        if(gType4Id!=null){
+            bill.setgType4id(Long.valueOf(gType4Id));
+        }
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (saveTime == null) {
             Date time = new Date();
