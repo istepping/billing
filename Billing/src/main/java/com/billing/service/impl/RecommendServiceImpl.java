@@ -88,7 +88,13 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
                     String type=bill.getgType();
                     String brand=bill.getgType4();
                     List<Recommend> recommends1=recommendMapper.selectByTypeAndBrand(type,brand);
-                    recommends.addAll(recommends1);
+                    for(Recommend recommend:recommends1){
+                        for(Recommend recommend1:recommends){
+                            if(recommend.getrId().equals(recommend1.getrId())){
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
