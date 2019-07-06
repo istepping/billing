@@ -21,6 +21,13 @@ import java.util.Map;
 public class RecommendController extends BaseController {
     @Autowired
     private RecommendService recommendService;
+    @RequestMapping("getRecommendType")
+    @ResponseBody
+    public Result getRecommendType(){
+        Map<String,Object> data=new HashMap<>();
+        data.put("recommend",recommendService.getRecommendType());
+        return successResponse(data);
+    }
     @RequestMapping("getRecommend")
     @ResponseBody
     public Result getRecommend(){

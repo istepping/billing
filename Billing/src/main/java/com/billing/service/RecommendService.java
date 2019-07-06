@@ -18,4 +18,6 @@ public interface RecommendService {
     List<Recommend> getRecommendWithUId(Long uId);
     //搜索功能
     List<Recommend> searchByName(String name);
+    //获取记账分类信息
+    List<Recommend> getRecommendType();
 }

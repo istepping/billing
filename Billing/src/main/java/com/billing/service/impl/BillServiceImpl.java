@@ -81,14 +81,31 @@ public class BillServiceImpl extends BaseService implements BillService {
     @Override
     public ServiceResult addBillByUId(Bill bill) {
         if (billMapper.insert(bill) > 0) {
-            //跟新数据操作
+            //跟新数据操作,具有完整数据
             if(bill.getgType()!=null && bill.getgType2()!=null && bill.getgType4()!=null){
                 Recommend recommend=recommendMapper.selectByTypeAndNameAndBrand(bill.getgType(),bill.getgType2(),bill.getgType4());
-                //4id作为like
-                if(recommend!=null && (bill.getgType4id()==null || bill.getgType4id()>=4)){
-                    recommend.setrLike(String.valueOf((Double.valueOf(recommend.getrLike())*recommend.getrBuynum()+1)/(recommend.getrBuynum()+1)).substring(0,4));
-                    recommend.setrPrice(recommend.getrPrice().multiply(new BigDecimal(recommend.getrBuynum())).add(bill.getMoney()).divide(new BigDecimal(recommend.getrBuynum()+1),2, RoundingMode.HALF_UP));
-                    recommend.setrBuynum(recommend.getrBuynum()+1);
+                //4id作为like，评分>=4,是好评
+                if(recommend!=null){
+                    //初次记录
+                    if(recommend.getrBuynum()==null || recommend.getrLike()==null || recommend.getrPrice()==null){
+                        recommend.setrPrice(bill.getMoney());
+                        recommend.setrBuynum(1);
+                        if(bill.getgType4id()==null || bill.getgType4id()>=4){
+                            recommend.setrLike("1");
+                        }else{
+                            recommend.setrLike("0");
+                        }
+                    }else{
+                        //跟新记录
+                        if(bill.getgType4id()==null || bill.getgType4id()>=4){
+                            recommend.setrLike(String.valueOf((Double.valueOf(recommend.getrLike())*recommend.getrBuynum()+1)/(recommend.getrBuynum()+1)).substring(0,4));
+                        }else{
+                            recommend.setrLike(String.valueOf((Double.valueOf(recommend.getrLike())*recommend.getrBuynum())/(recommend.getrBuynum()+1)).substring(0,4));
+                        }
+                        recommend.setrPrice(recommend.getrPrice().multiply(new BigDecimal(recommend.getrBuynum())).add(bill.getMoney()).divide(new BigDecimal(recommend.getrBuynum()+1),2, RoundingMode.HALF_UP));
+                        recommend.setrBuynum(recommend.getrBuynum()+1);
+                    }
+                    //写入
                     recommendMapper.updateByPrimaryKeySelective(recommend);
                 }
             }

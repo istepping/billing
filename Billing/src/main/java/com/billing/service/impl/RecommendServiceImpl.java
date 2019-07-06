@@ -97,7 +97,7 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
                                 break;
                             }
                         }
-                        if (flag == 0) {
+                        if (flag == 0 && recommend.getrBuynum()!=null && !recommend.getrName().equals("其他") && !recommend.getrBrand().equals("其他")) {
                             recommends.add(recommend);
                         }
                     }
@@ -107,7 +107,7 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
         if (recommends.size() <= 10) {
             List<Recommend> recommends1 = recommendMapper.selectList();
             for (Recommend recommend : recommends1) {
-                if (Double.valueOf(recommend.getrLike()) > 0.9) {
+                if (recommend.getrBuynum()!=null && recommend.getrBuynum()!=null && Double.valueOf(recommend.getrBuynum()) > 0.9&& !recommend.getrName().equals("其他") && !recommend.getrBrand().equals("其他")) {
                     int flag = 0;
                     for (Recommend recommend1 : recommends) {
                         if (recommend.getrId().equals(recommend1.getrId())) {
@@ -126,11 +126,32 @@ public class RecommendServiceImpl extends BaseService implements RecommendServic
 
     @Override
     public List<Recommend> searchByName(String name) {
-        return recommendMapper.selectByLikeName("%" + name + "%");
+        List<Recommend> recommends= recommendMapper.selectByLikeName("%" + name + "%");
+        //去除空数据和其他数据
+        List<Recommend> recommends1=new ArrayList<>();
+        for(Recommend recommend:recommends){
+            if(!recommend.getrName().equals("其他") && !recommend.getrBrand().equals("其他") && recommend.getrBuynum()!=null){
+                recommends1.add(recommend);
+            }
+        }
+        return recommends1;
     }
 
     @Override
     public List<Recommend> getRecommend() {
+        List<Recommend> recommends= recommendMapper.selectList();
+        //去除空数据和其他数据
+        List<Recommend> recommends1=new ArrayList<>();
+        for(Recommend recommend:recommends){
+            if(!recommend.getrName().equals("其他") && !recommend.getrBrand().equals("其他") && recommend.getrBuynum()!=null){
+                recommends1.add(recommend);
+            }
+        }
+        return recommends1;
+    }
+
+    @Override
+    public List<Recommend> getRecommendType() {
         return recommendMapper.selectList();
     }
 }
